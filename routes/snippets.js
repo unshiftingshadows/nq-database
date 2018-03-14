@@ -10,9 +10,9 @@ const Outline = require('../models/Outline.js')
 const Idea = require('../models/Idea.js')
 
 var snippetType = {
-    'quote': Quote,
-    'outline': Outline,
-    'idea': Idea
+    'quotes': Quote,
+    'outlines': Outline,
+    'ideas': Idea
 }
 
 module.exports = function (req, res) {

@@ -11,7 +11,6 @@ const Article = require('./Article.js')
 
 var outlineSchema = new Schema({
     bibleRefs: [config.bibleRef],
-    character: String,
     dateAdded: {
         type: Date,
         default: Date.now

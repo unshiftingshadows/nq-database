@@ -60,7 +60,7 @@ function videoInfoSearch (videoURL, callback) {
             })
             res.on('end', () => {
                 var youtubeInfo = JSON.parse(data).items[0]
-                console.log(youtubeInfo)
+                console.log(youtubeInfo.snippet)
                 https.get('https://www.googleapis.com/youtube/v3/channels?key=' + api_cred.youtube + '&part=snippet&id=' + youtubeInfo.snippet.channelId, (res) => {
                     let data = ''
                     res.on('data', (chunk) => {
@@ -77,7 +77,7 @@ function videoInfoSearch (videoURL, callback) {
                             duration: parseDuration(youtubeInfo.contentDetails.duration),
                             embedURL: 'https://www.youtube.com/embed/' + youtubeInfo.id,
                             embedHTML: youtubeInfo.player.embedHtml,
-                            thumbURL: youtubeInfo.snippet.thumbnails.standard.url,
+                            thumbURL: youtubeInfo.snippet.thumbnails.standard ? youtubeInfo.snippet.thumbnails.standard.url : youtubeInfo.snippet.thumbnails.high.url,
                             postDate: new Date(youtubeInfo.snippet.publishedAt),
                             source: 'youtube',
                             pageURL: videoURL,
@@ -237,6 +237,105 @@ function newBook (data, uid, callback) {
     })
 }
 
+function newMovie (data, uid, callback) {
+    Movie.findOne({ 'moviedbid': data.moviedbid }).exec(function (err, dbMovie) {
+        console.log(dbMovie)
+        if (dbMovie === null) {
+            var movieID = data.moviedbid
+            console.log('no error')
+            var movieProm = axios({
+                method: 'get',
+                url: 'https://api.themoviedb.org/3/movie/' + movieID,
+                responseType: 'json',
+                params: {
+                    'language': 'en-US',
+                    'api_key': api_cred.moviedb
+                }
+            })
+            var creditProm = axios({
+                method: 'get',
+                url: 'https://api.themoviedb.org/3/movie/' + movieID + '/credits',
+                responseType: 'json',
+                params: {
+                    'language': 'en-US',
+                    'api_key': api_cred.moviedb
+                }
+            })
+            Promise.all([movieProm, creditProm]).then((res) => {
+                movieData = res[0].data
+                creditData = res[1].data
+
+                var director = creditData.crew.filter((person) => {
+                    return person.job === 'Director'
+                })
+
+                var movieObj = {
+                    title: movieData.title,
+                    author: director.map((person) => {
+                        return person.name
+                    }),
+                    moviedbid: movieID,
+                    releaseYear: new Date(movieData.release_date).getFullYear(),
+                    thumbURL: 'https://image.tmdb.org/t/p/w500' + movieData.poster_path,
+                    users: [uid]
+                }
+
+                var movie = new Movie(movieObj)
+                console.log(movie)
+                movie.save(function (err, updatedMovie) {
+                    console.log(err)
+                    if (err) return callback(false)
+                    console.log('movie added and saved')
+                    callback(updatedMovie)
+                })
+            })
+            // https.get('https://api.themoviedb.org/3/movie/' + movieID + '?&language=en-US&api_key=' + api_cred.moviedb, (res) => {
+            //     let data = ''
+            //     res.on('data', (chunk) => {
+            //         data += chunk
+            //     })
+            //     res.on('end', () => {
+            //         var results = JSON.parse(data)
+            //         console.log('final data', results)
+
+            //         var movieObj = {
+            //             title: results.title,
+            //             releaseYear: results.release_date.split('-')[0],
+            //             thumbURL: 'https://image.tmdb.org/t/p/w500' + results.poster_path,
+            //             users: [uid]
+            //         }
+
+            //         https.get('https://api.themoviedb.org/3/movie/' + movieID + '/credits?&language=en-US&api_key=' + api_cred.moviedb, (cres) => {
+            //             console.log('ran credits...')
+            //             let credit = ''
+            //             cres.on('data', (chunk) => {
+            //                 credit += chunk
+            //             })
+            //             res.on('end', () => {
+            //                 var cresults = JSON.parse(credit)
+            //                 console.log(cresults)
+            //             })
+            //         })
+
+            //         var movie = new Movie(movieObj)
+            //         console.log(movie)
+            //         // movie.save(function (err, updatedMovie) {
+            //         //     console.log(err)
+            //         //     if (err) return callback(false)
+            //         //     console.log('movie added and saved')
+            //         //     callback(updatedMovie)
+            //         // })
+            //     })
+            // })
+        } else {
+            // TODO: Add user to existing movie
+            console.log('something went wrong in adding')
+            console.log(err)
+            callback(false)
+        }
+    })
+}
+
 function newImage (data, uid, callback) {
     switch (data.type) {
         case 'wiki':
@@ -364,7 +463,7 @@ function newResource (data, uid, callback) {
 
 var newMedia = {
     'book': newBook,
-    // 'movie': newMovie,
+    'movie': newMovie,
     'image': newImage,
     'video': newVideo,
     'article': newArticle,

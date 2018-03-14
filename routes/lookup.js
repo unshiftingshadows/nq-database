@@ -2,6 +2,8 @@ const config = require('../nq_config.js')
 const firebase = require('../firebase.js')
 const https = require('https')
 
+const api_cred = require('../api_cred.js')
+
 function book (searchTerm, callback) {
     // Return google results
     // var xhttp = new XMLHttpRequest()
@@ -16,7 +18,7 @@ function book (searchTerm, callback) {
     // xhttp.send()
 
     https.get('https://www.googleapis.com/books/v1/volumes?q=' + searchTerm, (res) => {
-        let data = '';
+        let data = ''
         res.on('data', (chunk) => {
             data += chunk
         })
@@ -31,6 +33,19 @@ function book (searchTerm, callback) {
 }
 
 function movie (searchTerm, callback) {
+    https.get('https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&language=en-US&api_key=' + api_cred.moviedb + '&query=' + searchTerm, (res) => {
+        let data = ''
+        res.on('data', (chunk) => {
+            data += chunk
+        })
+        res.on('end', () => {
+            var results = JSON.parse(data)
+            console.log(results)
+            callback(results)
+        })
+    }).on('error', (err) => {
+        console.log('Error: ' + err.message)
+    })
 }
 
 module.exports = function (req, res) {

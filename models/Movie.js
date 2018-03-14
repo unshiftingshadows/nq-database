@@ -22,11 +22,12 @@ var movieSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    imageURL: {
+    moviedbid: String,
+    releaseYear: {
         type: String,
         default: ''
     },
-    releaseYear: {
+    thumbURL: {
         type: String,
         default: ''
     },

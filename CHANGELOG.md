@@ -1,6 +1,14 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.10 - 2018-03-14
+### Added
+- functionality to add Movies
+- functionality to lookup Movies
+
+### Changed
+- fixed incorrect lookup object in snippets to be plural
+
 ## 0.0.9 - 2018-03-13
 ### Added
 - Discourse model
