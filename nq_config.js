@@ -6,6 +6,7 @@ var mediaTypes = [
     'article',
     'document',
     'note',
+    'discourse',
     'quote',
     'outline',
     'idea',

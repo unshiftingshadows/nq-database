@@ -5,8 +5,11 @@ const config = require('../nq_config.js')
 
 const Book = require('./Book.js')
 const Movie = require('./Movie.js')
+const Video = require('./Video.js')
+const Article = require('./Article.js')
+// const Document = require('./Document.js') // still not sure about this one...
 
-var quoteSchema = new Schema({
+var ideaSchema = new Schema({
     bibleRefs: [config.bibleRef],
     character: String,
     dateAdded: {
@@ -14,8 +17,14 @@ var quoteSchema = new Schema({
         default: Date.now
     },
     location: {
-        type: Number,
-        default: 0
+        start: {
+            type: Number,
+            default: 0
+        },
+        end: {
+            type: Number,
+            default: 0
+        }
     },
     locationType: {
         type: String,
@@ -52,4 +61,4 @@ var quoteSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('quote', quoteSchema)
+module.exports = mongoose.model('idea', ideaSchema)

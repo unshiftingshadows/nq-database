@@ -16,20 +16,11 @@ const Video = require('../models/Video.js')
 const Article = require('../models/Article.js')
 const Note = require('../models/Note.js')
 const Quote = require('../models/Quote.js')
+const Outline = require('../models/Outline.js')
+const Idea = require('../models/Idea.js')
 const Author = require('../models/Author.js')
 const UserData = require('../models/UserData.js')
 const Topic = require('../models/Topic.js')
-
-var mediaList = {
-    'book': Book,
-    'movie': Movie,
-    'image': Image,
-    'video': Video,
-    'article': Article,
-    'note': Note,
-    'quote': Quote,
-    'topic': Topic
-}
 
 function parseDuration (duration) {
     var a = duration.match(/\d+/g)
@@ -318,6 +309,28 @@ function newQuote (data, uid, callback) {
     })
 }
 
+function newOutline (data, uid, callback) {
+    console.log('started newOutline')
+    var obj = data
+    obj.user = uid
+    var outline = new Outline(obj)
+    outline.save(function (err, updatedOutline) {
+        if (err) return callback(false)
+        callback(updatedOutline)
+    })
+}
+
+function newIdea (data, uid, callback) {
+    console.log('started newIdea')
+    var obj = data
+    obj.user = uid
+    var idea = new Idea(obj)
+    idea.save(function (err, updatedIdea) {
+        if (err) return callback(false)
+        callback(updatedIdea)
+    })
+}
+
 function newTopic (data, uid, callback) {
     console.log('started newTopic')
     var obj = data
@@ -357,6 +370,8 @@ var newMedia = {
     'article': newArticle,
     'note': newNote,
     'quote': newQuote,
+    'outline': newOutline,
+    'idea': newIdea,
     'topic': newTopic,
     'resource': newResource
 }

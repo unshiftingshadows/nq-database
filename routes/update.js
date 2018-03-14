@@ -9,6 +9,8 @@ const Video = require('../models/Video.js')
 const Article = require('../models/Article.js')
 const Note = require('../models/Note.js')
 const Quote = require('../models/Quote.js')
+const Outline = require('../models/Outline.js')
+const Idea = require('../models/Idea.js')
 const UserData = require('../models/UserData.js')
 
 var mediaList = {
@@ -18,7 +20,9 @@ var mediaList = {
     'video': Video,
     'article': Article,
     'note': Note,
-    'quote': Quote
+    'quote': Quote,
+    'outline': Outline,
+    'idea': Idea
 }
 
 module.exports = function (req, res) {
@@ -39,7 +43,6 @@ module.exports = function (req, res) {
                             item[key] = req.body.data[key]
                         }
                         item.save(function (err, updatedItem) {
-                            
                             if (updatedItem === null) {
                                 console.log('problem updating media data')
                                 res.status(400).send('did not update media')

@@ -5,8 +5,11 @@ const config = require('../nq_config.js')
 
 const Book = require('./Book.js')
 const Movie = require('./Movie.js')
+const Video = require('./Video.js')
+const Article = require('./Article.js')
+// const Document = require('./Document.js') // still haven't decided on this one...
 
-var quoteSchema = new Schema({
+var outlineSchema = new Schema({
     bibleRefs: [config.bibleRef],
     character: String,
     dateAdded: {
@@ -14,8 +17,14 @@ var quoteSchema = new Schema({
         default: Date.now
     },
     location: {
-        type: Number,
-        default: 0
+        start: {
+            type: Number,
+            default: 0
+        },
+        end: {
+            type: Number,
+            default: 0
+        }
     },
     locationType: {
         type: String,
@@ -38,11 +47,25 @@ var quoteSchema = new Schema({
         type: String,
         default: ''
     },
+    numbered: {
+        type: Boolean,
+        default: false
+    },
+    points: [{
+        point: {
+            type: String,
+            required: true
+        },
+        notes: {
+            type: String,
+            default: ''
+        }
+    }],
     tags: {
         type: [String],
         default: []
     },
-    text: {
+    title: {
         type: String,
         required: true
     },
@@ -52,4 +75,4 @@ var quoteSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('quote', quoteSchema)
+module.exports = mongoose.model('outline', outlineSchema)

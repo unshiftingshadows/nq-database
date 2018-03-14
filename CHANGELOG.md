@@ -1,6 +1,19 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.9 - 2018-03-13
+### Added
+- Discourse model
+- Document model
+- Idea model
+- Outline model
+- functionality to add Ideas and Outlines
+- functionality to update Ideas and Outlines
+
+### Changed
+- removed extra commented code
+- renamed 'quotes' route to 'snippets' to include ideas and outlines
+
 ## 0.0.8 - 2018-03-13
 ### Added
 - api_cred file to store api keys

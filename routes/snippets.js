@@ -6,6 +6,14 @@ var ObjectId = mongoose.Types.ObjectId
 
 // Import media types
 const Quote = require('../models/Quote.js')
+const Outline = require('../models/Outline.js')
+const Idea = require('../models/Idea.js')
+
+var snippetType = {
+    'quote': Quote,
+    'outline': Outline,
+    'idea': Idea
+}
 
 module.exports = function (req, res) {
     console.log('id', req.body.id)
@@ -13,13 +21,15 @@ module.exports = function (req, res) {
 
     firebase.verifyID(token)
         .then(function(decodedToken) {
+            var type = req.body.type
             var id = req.body.id
+            console.log('type', type)
             console.log('id', id)
-            Quote.find({ mediaid: new ObjectId(req.body.id), user: decodedToken.uid }).sort('location').exec(function (err, quotes) {
+            snippetType[type].find({ mediaid: new ObjectId(req.body.id), user: decodedToken.uid }).sort('location location.start').exec(function (err, items) {
                 if (err) console.log(err.message)
                 // console.log(quotes)
-                console.log('quotes', quotes.length)
-                res.send(quotes)
+                console.log('snippets', items.length)
+                res.send(items)
             })
         })
         .catch(function(err) {
