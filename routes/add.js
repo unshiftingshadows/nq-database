@@ -414,6 +414,7 @@ function newOutline (data, uid, callback) {
     obj.user = uid
     var outline = new Outline(obj)
     outline.save(function (err, updatedOutline) {
+        console.log(err)
         if (err) return callback(false)
         callback(updatedOutline)
     })

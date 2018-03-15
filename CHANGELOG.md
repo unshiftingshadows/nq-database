@@ -1,6 +1,12 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.11 - 2018-03-15
+### Changed
+- Outline.points is now just a String array
+- add and update adds catches for certain errors
+- snippets now has an 'all' option for returning all quotes, outlines, and ideas at once
+
 ## 0.0.10 - 2018-03-14
 ### Added
 - functionality to add Movies

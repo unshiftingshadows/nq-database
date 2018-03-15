@@ -50,16 +50,10 @@ var outlineSchema = new Schema({
         type: Boolean,
         default: false
     },
-    points: [{
-        point: {
-            type: String,
-            required: true
-        },
-        notes: {
-            type: String,
-            default: ''
-        }
-    }],
+    points: {
+        type: [String],
+        default: []
+    },
     tags: {
         type: [String],
         default: []

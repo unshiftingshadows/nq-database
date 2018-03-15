@@ -36,32 +36,35 @@ module.exports = function (req, res) {
         .then(function(decodedToken) {
             var type = req.body.type
             var id = req.body.id
+            var data = req.body.data
             if (config.mediaTypes.includes(type)) {
                 if (!req.body.updateUserData) {
                     mediaList[type].findById(id, function (err, item) {
-                        for (key in req.body.data) {
-                            item[key] = req.body.data[key]
+                        if (err) console.log(err)
+                        for (key in data) {
+                            item[key] = data[key]
+                            console.log('item: ' , item[key])
                         }
                         item.save(function (err, updatedItem) {
-                            if (updatedItem === null) {
+                            if (err || updatedItem === null) {
                                 console.log('problem updating media data')
                                 res.status(400).send('did not update media')
                             } else {
                                 console.log('resource updated!', updatedItem)
-                                res.status(200).send('Updated Resource!')
+                                res.status(200).send(updatedItem)
                             }
                         })
                     })
                 } else {
-                    console.log('notes', req.body.data.notes)
-                    console.log('tags', req.body.data.tags)
+                    console.log('notes', data.notes)
+                    console.log('tags', data.tags)
                     UserData.findOneAndUpdate({ uid: decodedToken.uid, resource: id }, { notes: req.body.data.notes, tags: req.body.data.tags, rating: req.body.data.rating, status: req.body.data.status }, function (err, updatedData) {
-                        if (updatedData === null) {
+                        if (err || updatedData === null) {
                             var data = {
-                                notes: req.body.data.notes,
-                                tags: req.body.data.tags,
-                                rating: req.body.data.rating,
-                                status: req.body.data.status,
+                                notes: data.notes,
+                                tags: data.tags,
+                                rating: data.rating,
+                                status: data.status,
                                 type: type,
                                 resource: id,
                                 uid: decodedToken.uid
@@ -88,7 +91,7 @@ module.exports = function (req, res) {
             }
         })
         .catch(function(err) {
-            console.log('error with token')
+            console.log('error with token', err)
             res.status(400).send('Invalid user token')
         })
 }
