@@ -47,7 +47,7 @@ var bibleRefSchema = {
     chapterr: Number,
     type: {
         type: String,
-        enum: ['single', 'simpleRange', 'complexRange'],
+        enum: ['single', 'simpleRange', 'complexRange', 'chapter', 'chapterRange', 'book'],
         required: true
     },
     verse: Number,

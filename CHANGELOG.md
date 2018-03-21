@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.12 - 2018-03-20
+### Changed
+- added chapter, chapterRange, and book to the types of bibleRefs
+
 ## 0.0.11 - 2018-03-15
 ### Changed
 - Outline.points is now just a String array
