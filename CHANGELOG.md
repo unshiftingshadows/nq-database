@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.13 - 2018-03-23
+### Changed
+- added topic as type to update in update route
+
 ## 0.0.12 - 2018-03-20
 ### Changed
 - added chapter, chapterRange, and book to the types of bibleRefs

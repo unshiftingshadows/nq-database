@@ -11,6 +11,7 @@ const Note = require('../models/Note.js')
 const Quote = require('../models/Quote.js')
 const Outline = require('../models/Outline.js')
 const Idea = require('../models/Idea.js')
+const Topic = require('../models/Topic.js')
 const UserData = require('../models/UserData.js')
 
 var mediaList = {
@@ -22,7 +23,8 @@ var mediaList = {
     'note': Note,
     'quote': Quote,
     'outline': Outline,
-    'idea': Idea
+    'idea': Idea,
+    'topic': Topic
 }
 
 module.exports = function (req, res) {
