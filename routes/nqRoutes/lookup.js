@@ -1,8 +1,8 @@
-const config = require('../nq_config.js')
-const firebase = require('../firebase.js')
+const config = require('../../nq_config.js')
+const firebase = require('../../firebase.js').nq
 const https = require('https')
 
-const api_cred = require('../api_cred.js')
+const api_cred = require('../../api_cred.js')
 
 function book (searchTerm, callback) {
     // Return google results

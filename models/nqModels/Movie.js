@@ -1,15 +1,14 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('../../db_connections/nq-connect.js')
+const Schema = require('mongoose').Schema
 
-const config = require('../nq_config.js')
+const config = require('../../nq_config.js')
 
 const Author = require('./Author.js')
 
-var bookSchema = new Schema({
+var movieSchema = new Schema({
     allTags: [String],
     author: [{
-        type: String,
-        required: true
+        type: String
     }],
     citation: {
         type: String,
@@ -23,22 +22,14 @@ var bookSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    googleid: String,
-    isbn: {
-        type: String,
-        required: true
-    },
-    pubYear: {
-        type: String,
-        default: ''
-    },
-    publisher: {
+    moviedbid: String,
+    releaseYear: {
         type: String,
         default: ''
     },
     thumbURL: {
         type: String,
-        required: true
+        default: ''
     },
     title: {
         type: String,
@@ -48,6 +39,6 @@ var bookSchema = new Schema({
         type: [String],
         default: []
     }
-}, { toJSON: { virtuals: true } })
+})
 
-module.exports = mongoose.model('book', bookSchema)
+module.exports = mongoose.model('movie', movieSchema)

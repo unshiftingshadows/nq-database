@@ -1,10 +1,18 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('../../db_connections/nq-connect.js')
+const Schema = require('mongoose').Schema
 
-const config = require('../nq_config.js')
+const config = require('../../nq_config.js')
 
-var videoSchema = new Schema({
+var imageSchema = new Schema({
     allTags: [String],
+    attribution: {
+        type: String,
+        default: ''
+    },
+    attributionRequired: {
+        type: Boolean,
+        default: true
+    },
     author: {
         type: [String],
         default: []
@@ -16,6 +24,10 @@ var videoSchema = new Schema({
     bibleRefs: {
         type: [config.bibleRef],
         default: []
+    },
+    credit: {
+        type: String,
+        default: ''
     },
     dateAdded: {
         type: Date,
@@ -29,17 +41,9 @@ var videoSchema = new Schema({
         type: String,
         default: ''
     },
-    duration: {
-        type: Number,
-        default: 0
-    },
-    embedHTML: {
+    imageURL: {
         type: String,
-        required: true
-    },
-    embedURL: {
-        type: String,
-        required: true
+        default: ''
     },
     pageURL: {
         type: String,
@@ -51,7 +55,7 @@ var videoSchema = new Schema({
     },
     source: {
         type: String,
-        enum: config.videoSources,
+        enum: config.imageSources,
         required: true
     },
     thumbURL: {
@@ -62,9 +66,9 @@ var videoSchema = new Schema({
         type: String,
         required: true
     },
-    videoID: {
+    usageTerms: {
         type: String,
-        required: true
+        default: ''
     },
     users: {
         type: [String],
@@ -72,4 +76,4 @@ var videoSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('video', videoSchema)
+module.exports = mongoose.model('image', imageSchema)

@@ -1,16 +1,31 @@
 const admin = require('firebase-admin')
 
-const serviceAccount = require('./nq_credentials.json')
+const nqAccount = require('./nq_credentials.json')
+const builderAccount = require('./builder_credentials.json')
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+var nqApp = admin.initializeApp({
+    credential: admin.credential.cert(nqAccount),
     databaseURL: 'https://notes-and-quotes-977a3.firebaseio.com'
-})
+}, 'nq')
 
-function verifyID (idToken) {
-    return admin.auth().verifyIdToken(idToken)
+var builderApp = admin.initializeApp({
+    credential: admin.credential.cert(builderAccount),
+    databaseURL: 'https://notes-and-quotes-977a3.firebaseio.com'
+}, 'builder')
+
+function nqVerifyID (idToken) {
+    return nqApp.auth().verifyIdToken(idToken)
+}
+
+function builderVerifyID (idToken) {
+    return builderApp.auth().verifyIdToken(idToken)
 }
 
 module.exports = {
-    verifyID: verifyID
+    nq: {
+        verifyID: nqVerifyID
+    },
+    builder: {
+        verifyID: builderVerifyID
+    }
 }

@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('../../db_connections/nq-connect.js')
+const Schema = require('mongoose').Schema
 
-const config = require('../nq_config.js')
+const config = require('../../nq_config.js')
 
 var userDataSchema = new Schema({
     uid: {

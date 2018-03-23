@@ -1,13 +1,13 @@
-const config = require('../nq_config.js')
-const firebase = require('../firebase.js')
+const config = require('../../nq_config.js')
+const firebase = require('../../firebase.js').nq
 const mongoose = require('mongoose')
 
 var ObjectId = mongoose.Types.ObjectId
 
 // Import media types
-const Quote = require('../models/Quote.js')
-const Outline = require('../models/Outline.js')
-const Idea = require('../models/Idea.js')
+const Quote = require('../../models/nqModels/Quote.js')
+const Outline = require('../../models/nqModels/Outline.js')
+const Idea = require('../../models/nqModels/Idea.js')
 
 var snippetType = {
     'quotes': Quote,

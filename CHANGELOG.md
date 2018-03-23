@@ -1,6 +1,18 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.14 - 2018-03-23
+### Added
+- added all REAL Builder models and routes
+- added REAL Builder firebase connection
+
+### Changed
+- edited file structure to accomodate for two systems (builder and nq)
+
+### Notes
+- big changes...but everything should work now
+- needed in order to access NQ media from within the Builder without lots of duplicate code
+
 ## 0.0.13 - 2018-03-23
 ### Changed
 - added topic as type to update in update route

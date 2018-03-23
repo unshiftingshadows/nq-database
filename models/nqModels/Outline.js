@@ -1,17 +1,16 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('../../db_connections/nq-connect.js')
+const Schema = require('mongoose').Schema
 
-const config = require('../nq_config.js')
+const config = require('../../nq_config.js')
 
 const Book = require('./Book.js')
 const Movie = require('./Movie.js')
 const Video = require('./Video.js')
 const Article = require('./Article.js')
-// const Document = require('./Document.js') // still not sure about this one...
+// const Document = require('./Document.js') // still haven't decided on this one...
 
-var ideaSchema = new Schema({
+var outlineSchema = new Schema({
     bibleRefs: [config.bibleRef],
-    character: String,
     dateAdded: {
         type: Date,
         default: Date.now
@@ -47,11 +46,19 @@ var ideaSchema = new Schema({
         type: String,
         default: ''
     },
+    numbered: {
+        type: Boolean,
+        default: false
+    },
+    points: {
+        type: [String],
+        default: []
+    },
     tags: {
         type: [String],
         default: []
     },
-    text: {
+    title: {
         type: String,
         required: true
     },
@@ -61,4 +68,4 @@ var ideaSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('idea', ideaSchema)
+module.exports = mongoose.model('outline', outlineSchema)

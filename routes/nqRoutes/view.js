@@ -1,16 +1,16 @@
-const config = require('../nq_config.js')
-const firebase = require('../firebase.js')
+const config = require('../../nq_config.js')
+const firebase = require('../../firebase.js').nq
 const ObjectId = require('mongoose').Types.ObjectId
 
 // Import media types
-const Book = require('../models/Book.js')
-const Movie = require('../models/Movie.js')
-const Image = require('../models/Image.js')
-const Video = require('../models/Video.js')
-const Article = require('../models/Article.js')
-const Note = require('../models/Note.js')
-const UserData = require('../models/UserData.js')
-const Topic = require('../models/Topic.js')
+const Book = require('../../models/nqModels/Book.js')
+const Movie = require('../../models/nqModels/Movie.js')
+const Image = require('../../models/nqModels/Image.js')
+const Video = require('../../models/nqModels/Video.js')
+const Article = require('../../models/nqModels/Article.js')
+const Note = require('../../models/nqModels/Note.js')
+const UserData = require('../../models/nqModels/UserData.js')
+const Topic = require('../../models/nqModels/Topic.js')
 
 var mediaList = {
     'book': Book,

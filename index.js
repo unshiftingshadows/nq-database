@@ -1,15 +1,27 @@
 const router = require('./routes/routes.js')
-const mongoose = require('mongoose')
 
-const dbOptions = require('./db_cred.js')
+const realMongoose = require('./db_connections/real-connect.js')
+const otherMongoose = require('./db_connections/other-connect.js')
+const nqMongoose = require('./db_connections/real-connect.js')
+
+var realDB = realMongoose
+realDB.on('error', console.error.bind(console, 'connection error:'))
+realDB.once('open', function () {
+    console.log('REAL DB - we are connected!!!')
+})
+
+var otherDB = otherMongoose
+otherDB.on('error', console.error.bind(console, 'connection error:'))
+otherDB.once('open', function () {
+    console.log('Other DB - we are connected!!!')
+})
+
+var otherDB = nqMongoose
+otherDB.on('error', console.error.bind(console, 'connection error:'))
+otherDB.once('open', function () {
+    console.log('Notes and Quotes - we are connected!!!')
+})
 
 const port = 8080
 
-mongoose.connect('mongodb://localhost:27017/notesandquotes', dbOptions)
-var db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', function () {
-    console.log('we are connected!!!')
-})
-
-router.listen(port, () => console.log('Note and Quotes listening on port: ' + port))
+router.listen(port, () => console.log('Database listening on port: ' + port))

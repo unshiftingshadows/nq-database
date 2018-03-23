@@ -1,15 +1,17 @@
-const config = require('../nq_config.js')
-const firebase = require('../firebase.js')
+const config = require('../../nq_config.js')
+const firebase = require('../../firebase.js').nq
 
 // Import media types
-const Book = require('../models/Book.js')
-const Movie = require('../models/Movie.js')
-const Image = require('../models/Image.js')
-const Video = require('../models/Video.js')
-const Article = require('../models/Article.js')
-const Note = require('../models/Note.js')
-const Quote = require('../models/Quote.js')
-const Topic = require('../models/Topic.js')
+const Book = require('../../models/nqModels/Book.js')
+const Movie = require('../../models/nqModels/Movie.js')
+const Image = require('../../models/nqModels/Image.js')
+const Video = require('../../models/nqModels/Video.js')
+const Article = require('../../models/nqModels/Article.js')
+const Note = require('../../models/nqModels/Note.js')
+const Quote = require('../../models/nqModels/Quote.js')
+const Outline = require('../../models/nqModels/Outline.js')
+const Idea = require('../../models/nqModels/Idea.js')
+const Topic = require('../../models/nqModels/Topic.js')
 
 var mediaList = {
     'books': Book,
@@ -19,6 +21,8 @@ var mediaList = {
     'articles': Article,
     'notes': Note,
     'quotes': Quote,
+    'outline': Outline,
+    'idea': Idea,
     'topics': Topic
 }
 
@@ -42,6 +46,7 @@ module.exports = function (req, res) {
                     })
                 } else {
                     mediaList[type].find({}).$where('this.users.includes(\"' + decodedToken.uid + '\")').exec(function (err, items) {
+                        console.log('something')
                         if (err) console.log(err.message)
                         console.log(items)
                         res.send(items)
