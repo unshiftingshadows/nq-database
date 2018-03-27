@@ -7,6 +7,7 @@ var mediaTypes = [
     'document',
     'note',
     'discourse',
+    'composition',
     'quote',
     'outline',
     'idea',
@@ -33,6 +34,11 @@ var videoSources = [
     'vimeo'
 ]
 
+var compositionTypes = [
+    'song',
+    'poem'
+]
+
 var quoteLocations = [
     'None',
     'Page',
@@ -57,6 +63,9 @@ var bibleRefSchema = {
 module.exports = {
     mediaTypes: mediaTypes,
     status: status,
+    imageSources: imageSources,
+    videoSources: videoSources,
+    compositionTypes: compositionTypes,
     quoteLocations: quoteLocations,
     bibleRef: bibleRefSchema
 }

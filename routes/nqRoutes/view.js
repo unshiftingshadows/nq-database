@@ -9,6 +9,9 @@ const Image = require('../../models/nqModels/Image.js')
 const Video = require('../../models/nqModels/Video.js')
 const Article = require('../../models/nqModels/Article.js')
 const Note = require('../../models/nqModels/Note.js')
+const Doc = require('../../models/nqModels/Document.js')
+const Discourse = require('../../models/nqModels/Discourse.js')
+const Composition = require('../../models/nqModels/Composition.js')
 const UserData = require('../../models/nqModels/UserData.js')
 const Topic = require('../../models/nqModels/Topic.js')
 
@@ -19,6 +22,9 @@ var mediaList = {
     'video': Video,
     'article': Article,
     'note': Note,
+    'document': Doc,
+    'discourse': Discourse,
+    'composition': Composition,
     'topic': Topic
 }
 

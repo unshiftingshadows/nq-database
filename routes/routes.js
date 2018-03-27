@@ -27,7 +27,7 @@ app.use(function(req, res, next) {
 })
 
 app.get('/', function (req, res) {
-    res.send('hello world')
+    res.send('Welcome to Unshifting Shadows Database')
 })
 
 app.get('/nq', function (req, res) {

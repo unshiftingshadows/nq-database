@@ -15,6 +15,9 @@ const Image = require('../../models/nqModels/Image.js')
 const Video = require('../../models/nqModels/Video.js')
 const Article = require('../../models/nqModels/Article.js')
 const Note = require('../../models/nqModels/Note.js')
+const Doc = require('../../models/nqModels/Document.js')
+const Discourse = require('../../models/nqModels/Discourse.js')
+const Composition = require('../../models/nqModels/Composition.js')
 const Quote = require('../../models/nqModels/Quote.js')
 const Outline = require('../../models/nqModels/Outline.js')
 const Idea = require('../../models/nqModels/Idea.js')
@@ -397,6 +400,42 @@ function newNote (data, uid, callback) {
     })
 }
 
+function newDocument (data, uid, callback) {
+    console.log('started newDocument')
+    var obj = data
+    obj.users = [uid]
+    var document = new Doc(obj)
+    document.save(function(err, updatedDocument) {
+        console.log(err)
+        if (err) return callback(false)
+        callback(updatedDocument)
+    })
+}
+
+function newDiscourse (data, uid, callback) {
+    console.log('started newDiscourse')
+    var obj = data
+    obj.user = uid
+    var discourse = new Discourse(obj)
+    discourse.save(function(err, updatedDiscourse) {
+        console.log(err)
+        if (err) return callback(false)
+        callback(updatedDiscourse)
+    })
+}
+
+function newComposition (data, uid, callback) {
+    console.log('started newComposition')
+    var obj = data
+    obj.users = [uid]
+    var composition = new Composition(obj)
+    composition.save(function(err, updatedComposition) {
+        console.log(err)
+        if (err) return callback(false)
+        callback(updatedComposition)
+    })
+}
+
 function newQuote (data, uid, callback) {
     console.log('started newQuote')
     var obj = data
@@ -469,6 +508,9 @@ var newMedia = {
     'video': newVideo,
     'article': newArticle,
     'note': newNote,
+    'document': newDocument,
+    'discourse': newDiscourse,
+    'composition': newComposition,
     'quote': newQuote,
     'outline': newOutline,
     'idea': newIdea,

@@ -1,6 +1,13 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.15 - 2018-03-27
+### Added
+- Composition model
+
+### Changed
+- add, list, resources, update, and view routes now accept the new media types: Document, Discourse, and Composition
+
 ## 0.0.14 - 2018-03-23
 ### Added
 - added all REAL Builder models and routes
