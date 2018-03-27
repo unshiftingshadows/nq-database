@@ -68,15 +68,18 @@ module.exports = function (req, res) {
                     console.log('tags', data.tags)
                     UserData.findOneAndUpdate({ uid: decodedToken.uid, resource: id }, { notes: req.body.data.notes, tags: req.body.data.tags, rating: req.body.data.rating, status: req.body.data.status }, function (err, updatedData) {
                         if (err || updatedData === null) {
-                            var data = {
-                                notes: data.notes,
-                                tags: data.tags,
-                                rating: data.rating,
-                                status: data.status,
-                                type: type,
-                                resource: id,
-                                uid: decodedToken.uid
-                            }
+                            // var data = {
+                            //     notes: data.notes || '',
+                            //     tags: data.tags || [],
+                            //     rating: data.rating || 0,
+                            //     status: data.status || 'new',
+                            //     type: type,
+                            //     resource: id,
+                            //     uid: decodedToken.uid
+                            // }
+                            data.type = type
+                            data.resource = id
+                            data.uid = decodedToken.uid
                             var userData = new UserData(data)
                             userData.save(function (err, updatedItem) {
                                 if (updatedItem === null) {

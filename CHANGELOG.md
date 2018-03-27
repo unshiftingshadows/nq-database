@@ -1,6 +1,11 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.16 - 2018-03-27
+### Changed
+- update now works properly when userData is submitted
+- Article attempts to set a placeholder url as the default thumbURL value
+
 ## 0.0.15 - 2018-03-27
 ### Added
 - Composition model

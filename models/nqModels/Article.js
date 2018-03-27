@@ -42,7 +42,7 @@ var articleSchema = new Schema({
     },
     thumbURL: {
         type: String,
-        required: true
+        default: 'http://via.placeholder.com/350x150'
     },
     text: {
         type: String,
