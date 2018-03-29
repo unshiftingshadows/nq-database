@@ -32,7 +32,7 @@ var compositionSchema = new Schema({
     },
     text: {
         type: String,
-        required: true
+        default: ''
     },
     title: {
         type: String,
