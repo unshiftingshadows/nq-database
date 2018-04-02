@@ -43,6 +43,10 @@ var compositionSchema = new Schema({
         enum: config.compositionTypes,
         required: true
     },
+    url: {
+        type: String,
+        default: ''
+    },
     users: {
         type: [String],
         default: []

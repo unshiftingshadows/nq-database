@@ -1,6 +1,14 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.17 - 2018-04-02
+### Added
+- Illustration snippet
+
+### Changed
+- updated add, list, resources, snippets, and update to use Illustration
+- Composition can now store a url
+
 ## 0.0.16 - 2018-03-27
 ### Changed
 - update now works properly when userData is submitted
