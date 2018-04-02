@@ -14,6 +14,7 @@ const Composition = require('../../models/nqModels/Composition.js')
 const Quote = require('../../models/nqModels/Quote.js')
 const Outline = require('../../models/nqModels/Outline.js')
 const Idea = require('../../models/nqModels/Idea.js')
+const Illustration = require('../../models/nqModels/Illustration.js')
 const UserData = require('../../models/nqModels/UserData.js')
 const Topic = require('../../models/nqModels/Topic.js')
 
@@ -30,6 +31,7 @@ var mediaList = {
     'quote': Quote,
     'outline': Outline,
     'idea': Idea,
+    'illustration': Illustration,
     'topic': Topic
 }
 

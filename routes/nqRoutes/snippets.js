@@ -8,11 +8,13 @@ var ObjectId = mongoose.Types.ObjectId
 const Quote = require('../../models/nqModels/Quote.js')
 const Outline = require('../../models/nqModels/Outline.js')
 const Idea = require('../../models/nqModels/Idea.js')
+const Illustration = require('../../models/nqModels/Illustration.js')
 
 var snippetType = {
     'quotes': Quote,
     'outlines': Outline,
-    'ideas': Idea
+    'ideas': Idea,
+    'illustration': Illustration
 }
 
 module.exports = function (req, res) {
@@ -29,7 +31,8 @@ module.exports = function (req, res) {
                 Promise.all([
                     Quote.find({ mediaid: new ObjectId(req.body.id), user: decodedToken.uid }).sort('location').exec(),
                     Outline.find({ mediaid: new ObjectId(req.body.id), user: decodedToken.uid }).sort('location.start').exec(),
-                    Idea.find({ mediaid: new ObjectId(req.body.id), user: decodedToken.uid }).sort('location.start').exec()
+                    Idea.find({ mediaid: new ObjectId(req.body.id), user: decodedToken.uid }).sort('location.start').exec(),
+                    Illustration.find({ mediaid: new ObjectId(req.body.id), user: decodedToken.uid }).sort('location.start').exec()
                 ]).then((items) => {
                     console.log('snippets', items)
                     res.send(items)
