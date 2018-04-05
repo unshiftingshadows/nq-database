@@ -10,7 +10,7 @@ var nqApp = admin.initializeApp({
 
 var builderApp = admin.initializeApp({
     credential: admin.credential.cert(builderAccount),
-    databaseURL: 'https://notes-and-quotes-977a3.firebaseio.com'
+    databaseURL: 'https://real-curriculum-builder.firebaseio.com'
 }, 'builder')
 
 function nqVerifyID (idToken) {
@@ -26,6 +26,7 @@ module.exports = {
         verifyID: nqVerifyID
     },
     builder: {
-        verifyID: builderVerifyID
+        verifyID: builderVerifyID,
+        db: builderApp.database()
     }
 }

@@ -24,13 +24,13 @@ module.exports = function (req, res) {
             var type = req.body.type
             console.log('uid', decodedToken.uid)
             if (Object.keys(otherContent).includes(type)) {
-                otherContent[type].find({}).where('user', decodedToken.uid).exec(function (err, items) {
+                otherContent[type].find({ users: decodedToken.uid }).exec(function (err, items) {
                     if (err) console.log(err)
                     console.log(items)
                     res.send(items)
                 })
             } else if (Object.keys(realContent).includes(type)) {
-                realContent[type].find({}).where('user', decodedToken.uid).exec(function (err, items) {
+                realContent[type].find({ users: decodedToken.uid }).exec(function (err, items) {
                     if (err) console.log(err)
                     console.log(items)
                     res.send(items)

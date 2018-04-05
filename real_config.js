@@ -71,11 +71,40 @@ var researchRefSchema = {
     }
 }
 
+var initOLesson = {
+    hook: {
+        title: '',
+        text: '',
+        wordcount: 0,
+        time: 0,
+        slide: false,
+        editing: false
+    },
+    application: {
+        title: '',
+        today: '',
+        thisweek: '',
+        thought: '',
+        wordcount: 0,
+        time: 0,
+        slide: false,
+        editing: false
+    },
+    prayer: {
+        text: '',
+        wordcount: 0,
+        time: 0,
+        slide: false,
+        editing: false
+    }
+}
+
 module.exports = {
     realTypes: realTypes,
     otherTypes: otherTypes,
     seriesTypes: seriesTypes,
     bibleRefSchema: bibleRefSchema,
     mediaRefSchema: mediaRefSchema,
-    researchRefSchema: researchRefSchema
+    researchRefSchema: researchRefSchema,
+    initOLesson: initOLesson
 }

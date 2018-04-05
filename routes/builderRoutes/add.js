@@ -31,13 +31,24 @@ module.exports = function (req, res) {
             console.log('good!')
             var type = req.body.type
             var data = req.body.data
-            data.user = decodedToken.uid
+            data.createdBy = decodedToken.uid
+            data.users = [decodedToken.uid]
             var obj = newContent(type, data)
             if (!obj) res.status(400).send('Problem...')
             obj.save(function (err, updated) {
                 console.log(err)
                 if (err) res.status(400).send('Could not save')
-                res.send(updated)
+                if (type === 'olesson') {
+                    // Add database reference to Firebase
+                    firebase.db.ref('olessons/' + updated._id + '/structure/').set(config.initOLesson, function(err) {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            res.send(updated)
+                        }
+                    });
+                }
+                // res.send(updated)
             })
         })
         .catch(function(err) {

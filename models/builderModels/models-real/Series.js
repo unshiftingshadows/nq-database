@@ -4,9 +4,9 @@ const Schema = require('mongoose').Schema
 const config = require('../../../real_config.js')
 
 var seriesSchema = new Schema({
-    collaborators: {
-        type: [String],
-        default: []
+    createdBy: {
+        type: String,
+        required: true
     },
     mainIdea: {
         type: String,
@@ -21,9 +21,9 @@ var seriesSchema = new Schema({
         enum: config.seriesTypes,
         default: 'other'
     },
-    user: {
-        type: String,
-        required: true
+    users: {
+        type: [String],
+        default: []
     }
 }, { toJSON: { virtuals: true } })
 

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.18 - 2018-04-04
+### Changed
+- adding an olesson now also initializes it in Firebase db
+- updated Lesson model to reflect upcoming module system
+
 ## 0.0.17 - 2018-04-02
 ### Added
 - Illustration snippet
