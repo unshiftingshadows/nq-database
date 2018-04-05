@@ -19,6 +19,7 @@ const builderadd = require('./builderRoutes/add.js')
 const builderview = require('./builderRoutes/view.js')
 const buildersearch = require('./builderRoutes/search.js')
 const builderbible = require('./builderRoutes/bible.js')
+const builderresources = require('./builderRoutes/resources.js')
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
@@ -55,5 +56,6 @@ app.post('/builder/add', builderadd)
 app.post('/builder/view', builderview)
 app.post('/builder/search', buildersearch)
 app.post('/builder/bible', builderbible)
+app.post('/builder/resources', builderresources)
 
 module.exports = app

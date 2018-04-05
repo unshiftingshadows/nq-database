@@ -10,6 +10,7 @@ const Quote = require('./models/nqModels/Quote.js')
 const Outline = require('./models/nqModels/Outline.js')
 const Idea = require('./models/nqModels/Idea.js')
 const UserData = require('./models/nqModels/UserData.js')
+
 const Topic = require('./models/nqModels/Topic.js')
 
 var realTypes = [
@@ -59,9 +60,9 @@ var mediaRefSchema = {
 }
 
 var researchRefSchema = {
-    id: {
+    media: {
         type: ObjectId,
-        ref: 'topic',
+        refPath: 'research.type',
         required: true
     },
     type: {

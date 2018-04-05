@@ -1,6 +1,14 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.19 - 2018-04-05
+### Added
+- resources route for builder to pull all resources connected to an olesson
+
+### Changed
+- search and list routes to send back Topics
+- search for Topics now uses fuse.js
+
 ## 0.0.18 - 2018-04-04
 ### Changed
 - adding an olesson now also initializes it in Firebase db
