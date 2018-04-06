@@ -1,6 +1,11 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.20 - 2018-04-06
+### Added
+- research route for builder to add/remove research from OLessons (eventually RLessons as well)
+- remove route (blank shell - for use later)
+
 ## 0.0.19 - 2018-04-05
 ### Added
 - resources route for builder to pull all resources connected to an olesson
