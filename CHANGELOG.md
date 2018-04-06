@@ -1,6 +1,11 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.21 - 2018-04-06
+### Added
+- view route can now return all NQ resources
+- update route for updating objects
+
 ## 0.0.20 - 2018-04-06
 ### Added
 - research route for builder to add/remove research from OLessons (eventually RLessons as well)
