@@ -36,6 +36,10 @@ var discourseSchema = new Schema({
         type: String,
         required: true
     },
+    url: {
+        type: String,
+        default: ''
+    },
     user: {
         type: String,
         required: true

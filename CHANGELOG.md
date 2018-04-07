@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.22 - 2018-04-06
+### Changed
+- discourse model now has a url field
+
 ## 0.0.21 - 2018-04-06
 ### Added
 - view route can now return all NQ resources
