@@ -11,6 +11,7 @@ var mediaTypes = [
     'quote',
     'outline',
     'idea',
+    'illustration',
     'topic',
     'resource', // used for adding resources to topics
     'none' // used for quotes that don't have a specific resource attached...still contemplating...

@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.24 - 2018-04-07
+### Changed
+- Illustration added to the list of mediaTypes
+
 ## 0.0.23 - 2018-04-07
 ### Changed
 - discourse model now has a users property instead of a single user -- author is not required, but has an empty array as default
