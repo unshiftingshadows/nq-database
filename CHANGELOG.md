@@ -1,6 +1,12 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.23 - 2018-04-07
+### Changed
+- discourse model now has a users property instead of a single user -- author is not required, but has an empty array as default
+- event name and allTags were also added to discourse
+- update route now prints error logs to the console
+
 ## 0.0.22 - 2018-04-06
 ### Changed
 - discourse model now has a url field

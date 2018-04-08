@@ -57,6 +57,7 @@ module.exports = function (req, res) {
                         }
                         item.save(function (err, updatedItem) {
                             if (err || updatedItem === null) {
+                                console.log(err)
                                 console.log('problem updating media data')
                                 res.status(400).send('did not update media')
                             } else {

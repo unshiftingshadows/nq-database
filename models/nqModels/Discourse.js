@@ -4,10 +4,11 @@ const Schema = require('mongoose').Schema
 const config = require('../../nq_config.js')
 
 var discourseSchema = new Schema({
-    author: [{
-        type: String,
-        required: true
-    }],
+    allTags: [String],
+    author: {
+        type: [String],
+        default: []
+    },
     bibleRefs: {
         type: [config.bibleRef],
         default: []
@@ -28,9 +29,9 @@ var discourseSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    tags: {
-        type: [String],
-        default: []
+    eventName: {
+        type: String,
+        default: ''
     },
     title: {
         type: String,
@@ -40,9 +41,9 @@ var discourseSchema = new Schema({
         type: String,
         default: ''
     },
-    user: {
-        type: String,
-        required: true
+    users: {
+        type: [String],
+        default: []
     }
 }, { toJSON: { virtuals: true } })
 
