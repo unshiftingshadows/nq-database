@@ -1,6 +1,13 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.25 - 2018-04-08
+### Added
+- models for media for users that do not use Notes and Quotes
+- updated add, view, update, and list routes to include the new models
+- Sermon model
+- updated add, view, update, and list routes to include Sermon model
+
 ## 0.0.24 - 2018-04-07
 ### Changed
 - Illustration added to the list of mediaTypes

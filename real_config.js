@@ -23,14 +23,20 @@ var realTypes = [
 
 var otherTypes = [
     'series',
-    'lesson'
+    'lesson',
+    'sermon'
 ]
 
-var seriesTypes = [
+var realSeriesTypes = [
     'bible',
     'theology',
     'culture',
     'other'
+]
+
+var otherSeriesTypes = [
+    'lesson',
+    'sermon'
 ]
 
 var bibleRefSchema = {
@@ -100,10 +106,18 @@ var initOLesson = {
     }
 }
 
+var initOSermon = {
+    init: {
+        slide: false,
+        editing: false
+    }
+}
+
 module.exports = {
     realTypes: realTypes,
     otherTypes: otherTypes,
-    seriesTypes: seriesTypes,
+    realSeriesTypes: realSeriesTypes,
+    otherSeriesTypes: otherSeriesTypes,
     bibleRefSchema: bibleRefSchema,
     mediaRefSchema: mediaRefSchema,
     researchRefSchema: researchRefSchema,

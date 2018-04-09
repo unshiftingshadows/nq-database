@@ -18,7 +18,7 @@ var seriesSchema = new Schema({
     },
     type: {
         type: String,
-        enum: config.seriesTypes,
+        enum: config.realSeriesTypes,
         default: 'other'
     },
     users: {

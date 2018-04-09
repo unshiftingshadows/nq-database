@@ -7,6 +7,14 @@ const firebase = require('../../firebase.js').builder
 const SeriesReal = require('../../models/builderModels/models-real/Series.js')
 const SeriesOther = require('../../models/builderModels/models-other/Series.js')
 const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
+const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
+
+// Import other media types
+const Quote = require('../../models/builderModels/models-other/Quote.js')
+const Image = require('../../models/builderModels/models-other/Image.js')
+const Illustration = require('../../models/builderModels/models-other/Illustration.js')
+const Lyric = require('../../models/builderModels/models-other/Lyric.js')
+const Video = require('../../models/builderModels/models-other/Video.js')
 
 function newContent (type, data) {
     switch (type) {
@@ -16,9 +24,162 @@ function newContent (type, data) {
             return new SeriesOther(data)
         case 'olesson':
             return new LessonOther(data)
+        case 'osermon':
+            return new SermonOther(data)
         default:
             return false
     }
+}
+
+function newQuote (data, uid, callback) {
+    console.log('started newQuote')
+    var obj = data
+    obj.user = uid
+    var quote = new Quote(obj)
+    quote.save(function (err, updatedQuote) {
+        if (err) return callback(false)
+        callback(updatedQuote)
+    })
+}
+
+function newIllustration (data, uid, callback) {
+    console.log('started newIllustration')
+    var obj = data
+    obj.user = uid
+    var illustration = new Illustration(obj)
+    illustration.save(function (err, updatedIllustration) {
+        if (err) return callback(false)
+        callback(updatedIllustration)
+    })
+}
+
+function newLyric (data, uid, callback) {
+    console.log('started newLyric')
+    var obj = data
+    obj.user = uid
+    var lyric = new Lyric(obj)
+    lyric.save(function (err, updatedLyric) {
+        if (err) return callback(false)
+        callback(updatedLyric)
+    })
+}
+
+function wikiImageSearch (title, callback) {
+    // Get image info
+    https.get('https://commons.wikimedia.org/w/api.php?action=query&origin=*&format=json&prop=imageinfo&titles=' + title + '&iiprop=extmetadata%7Curl&iilimit=10&iiurlwidth=250&callback=?', (res) => {
+        let data = ''
+        res.on('data', (chunk) => {
+            data += chunk
+        })
+        res.on('end', () => {
+            var results = JSON.parse(data.slice(5, data.length - 1))
+            var imageInfo = results.query.pages[Object.keys(results.query.pages)[0]].imageinfo[0]
+            console.log(imageInfo)
+            var author = htmlToText.fromString(imageInfo.extmetadata.Artist.value, {
+                wordwrap: false
+            })
+            var href = ''
+            if (imageInfo.extmetadata.Artist.value.match(/href="([^"]*)/) !== null) {
+                href = imageInfo.extmetadata.Artist.value.match(/href="([^"]*)/)[1]
+            }
+            callback({
+                thumbURL: imageInfo.thumburl,
+                imageURL: imageInfo.url,
+                pageURL: imageInfo.descriptionurl,
+                service: 'wiki'
+            })
+        })
+    })
+}
+
+function newImage (data, uid, callback) {
+    console.log('started newImage')
+    switch (data.type) {
+        case 'wiki':
+            wikiImageSearch(data.title, (res) => {
+                var image = new Image(res)
+                image.user = uid
+                console.log(image)
+                image.save(function (err, updatedImage) {
+                    console.log('image err', err)
+                    if (err) return callback(false)
+                    callback(updatedImage)
+                })
+            })
+            break
+        case 'link':
+        case 'storage':
+        default:
+    }
+}
+
+function videoInfoSearch (videoURL, callback) {
+    // Get video info
+    var videoInfo = getVideoId(videoURL)
+    if (videoInfo.service === 'youtube') {
+        https.get('https://www.googleapis.com/youtube/v3/videos?key=' + api_cred.youtube + '&part=snippet,contentDetails,player&id=' + videoInfo.id, (res) => {
+            let data = ''
+            res.on('data', (chunk) => {
+                data += chunk
+            })
+            res.on('end', () => {
+                var youtubeInfo = JSON.parse(data).items[0]
+                console.log(youtubeInfo.snippet)
+                callback({
+                    title: youtubeInfo.snippet.title,
+                    duration: parseDuration(youtubeInfo.contentDetails.duration),
+                    embedURL: 'https://www.youtube.com/embed/' + youtubeInfo.id,
+                    thumbURL: youtubeInfo.snippet.thumbnails.standard ? youtubeInfo.snippet.thumbnails.standard.url : youtubeInfo.snippet.thumbnails.high.url,
+                    service: 'youtube',
+                    pageURL: videoURL,
+                    videoID: youtubeInfo.id
+                })
+            })
+        })
+    }
+    else if (videoInfo.service === 'vimeo') {
+        https.get('https://api.vimeo.com/videos/' + videoInfo.id + '?access_token=' + api_cred.vimeo, (res) => {
+            let data = ''
+            res.on('data', (chunk) => {
+                data += chunk
+            })
+            res.on('end', () => {
+                var vimeoInfo = JSON.parse(data)
+                console.log(vimeoInfo)
+                callback({
+                    title: vimeoInfo.name,
+                    duration: vimeoInfo.duration,
+                    embedURL: 'https://player.vimeo.com/video/' + videoInfo.id,
+                    thumbURL: vimeoInfo.pictures.sizes[vimeoInfo.pictures.sizes.length - 1].link,
+                    service: 'vimeo',
+                    pageURL: vimeoInfo.link,
+                    videoID: videoInfo.id
+                })
+            })
+        })
+    }
+}
+
+function newVideo (data, uid, callback) {
+    console.log('started newVideo')
+    videoInfoSearch(data.url, (res) => {
+        var video = new Video(res)
+        video.user = uid
+        console.log(video)
+        video.save(function (err, updatedVideo) {
+            console.log('video err', err)
+            if (err) return callback(false)
+            callback(updatedVideo)
+        })
+    })
+}
+
+const newMedia = {
+    'quote': newQuote,
+    'image': newImage,
+    'illustration': newIllustration,
+    'lyric': newLyric,
+    'video': newVideo
 }
 
 module.exports = function (req, res) {
@@ -31,25 +192,44 @@ module.exports = function (req, res) {
             console.log('good!')
             var type = req.body.type
             var data = req.body.data
-            data.createdBy = decodedToken.uid
-            data.users = [decodedToken.uid]
-            var obj = newContent(type, data)
-            if (!obj) res.status(400).send('Problem...')
-            obj.save(function (err, updated) {
-                console.log(err)
-                if (err) res.status(400).send('Could not save')
-                if (type === 'olesson') {
-                    // Add database reference to Firebase
-                    firebase.db.ref('olessons/' + updated._id + '/structure/').set(config.initOLesson, function(err) {
-                        if (err) {
-                            console.log(err)
-                        } else {
-                            res.send(updated)
-                        }
-                    });
-                }
-                // res.send(updated)
-            })
+            if (Object.keys(newMedia).includes(type)) {
+                newMedia[type](data, decodedToken.uid, (item) => {
+                    if (!result) {
+                        res.status(400).send('new media not added...')
+                    } else {
+                        res.send(item)
+                    }
+                })
+            } else {
+                var obj = newContent(type, data)
+                obj.createdBy = decodedToken.uid
+                obj.users = [decodedToken.uid]
+                if (!obj) res.status(400).send('Problem...')
+                obj.save(function (err, updated) {
+                    console.log(err)
+                    if (err) res.status(400).send('Could not save')
+                    if (type === 'olesson') {
+                        // Add database reference to Firebase
+                        firebase.db.ref('o/lessons/' + updated._id + '/structure/').set(config.initOLesson, function(err) {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                res.send(updated)
+                            }
+                        });
+                    } else if (type === 'osermon') {
+                        // Add database reference to Firebase
+                        firebase.db.ref('o/sermons/' + updated._id + '/structure/').set(config.initOLesson, function(err) {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                res.send(updated)
+                            }
+                        });
+                    }
+                    // res.send(updated)
+                })
+            }
         })
         .catch(function(err) {
             console.log('error with token')

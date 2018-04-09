@@ -6,6 +6,7 @@ const ObjectId = require('mongoose').Types.ObjectId
 const SeriesReal = require('../../models/builderModels/models-real/Series.js')
 const SeriesOther = require('../../models/builderModels/models-other/Series.js')
 const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
+const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
 
 const Book = require('../../models/nqModels/Book.js')
 const Movie = require('../../models/nqModels/Movie.js')
@@ -29,7 +30,8 @@ var realContent = {
 
 var otherContent = {
     'oseries': SeriesOther,
-    'olesson': LessonOther
+    'olesson': LessonOther,
+    'osermon': SermonOther
 }
 
 var mediaTypes = {
@@ -51,6 +53,21 @@ var snippetTypes = {
     'illustration': Illustration
 }
 
+// Import other media types
+const OQuote = require('../../models/builderModels/models-other/Quote.js')
+const OImage = require('../../models/builderModels/models-other/Image.js')
+const OIllustration = require('../../models/builderModels/models-other/Illustration.js')
+const OLyric = require('../../models/builderModels/models-other/Lyric.js')
+const OVideo = require('../../models/builderModels/models-other/Video.js')
+
+const otherMedia = {
+    'quote': OQuote,
+    'image': OImage,
+    'illustration': OIllustration,
+    'lyric': OLyric,
+    'video': OVideo
+}
+
 module.exports = function (req, res) {
     console.log('type', req.body.type)
     console.log('id', req.body.id)
@@ -60,46 +77,60 @@ module.exports = function (req, res) {
         .then(function(decodedToken) {
             var type = req.body.type
             console.log('uid', decodedToken.uid)
-            if (Object.keys(otherContent).includes(type)) {
-                otherContent[type].findOne({ _id: req.body.id }).exec(function (err, items) {
-                    if (err) console.log(err)
-                    console.log(items)
-                    res.send(items)
-                })
-            } else if (Object.keys(realContent).includes(type)) {
-                realContent[type].findOne({ _id: req.body.id }).exec(function (err, items) {
-                    if (err) console.log(err)
-                    console.log(items)
-                    res.send(items)
-                })
-            } else if (Object.keys(mediaTypes).includes(type)) {
-                mediaTypes[type].findOne({ _id: req.body.id }).exec(function (err, items) {
-                    if (err) console.log(err)
-                    console.log(items)
-                    if (type === 'note') {
-                        res.send({
-                            resource: items
+            firebase.db.ref('/users/' + decodedToken.uid + '/nqUser').once('value', (nqUser) => {
+                if (!nqUser) {
+                    if (Object.keys(otherMedia).includes(type)) {
+                        otherMedia[type].findOne({ _id: req.body.id }).exec(function (err, items) {
+                            if (err) console.log(err)
+                            console.log(items)
+                            res.send(items)
                         })
                     } else {
-                        UserData.find({ resource: ObjectId(req.body.id) }).exec(function (err, data) {
-                            console.log('data', data)
+                        console.log('something went wrong')
+                    }
+                } else {
+                    if (Object.keys(otherContent).includes(type)) {
+                        otherContent[type].findOne({ _id: req.body.id }).exec(function (err, items) {
+                            if (err) console.log(err)
+                            console.log(items)
+                            res.send(items)
+                        })
+                    } else if (Object.keys(realContent).includes(type)) {
+                        realContent[type].findOne({ _id: req.body.id }).exec(function (err, items) {
+                            if (err) console.log(err)
+                            console.log(items)
+                            res.send(items)
+                        })
+                    } else if (Object.keys(mediaTypes).includes(type)) {
+                        mediaTypes[type].findOne({ _id: req.body.id }).exec(function (err, items) {
+                            if (err) console.log(err)
+                            console.log(items)
+                            if (type === 'note') {
+                                res.send({
+                                    resource: items
+                                })
+                            } else {
+                                UserData.find({ resource: ObjectId(req.body.id) }).exec(function (err, data) {
+                                    console.log('data', data)
+                                    res.send({
+                                        resource: items,
+                                        userData: data
+                                    })
+                                })
+                            }
+                        })
+                    } else if (Object.keys(snippetTypes).includes(type)) {
+                        snippetTypes[type].findOne({ _id: req.body.id }).populate({ path: 'mediaid', select: 'title author thumbURL' }).exec(function (err, items) {
+                            if (err) console.log(err)
+                            console.log(items)
                             res.send({
-                                resource: items,
-                                userData: data
+                                resource: items
                             })
                         })
+                    } else {
+                        console.log('something went wrong')
                     }
-                })
-            } else if (Object.keys(snippetTypes).includes(type)) {
-                snippetTypes[type].findOne({ _id: req.body.id }).populate({ path: 'mediaid', select: 'title author thumbURL' }).exec(function (err, items) {
-                    if (err) console.log(err)
-                    console.log(items)
-                    res.send({
-                        resource: items
-                    })
-                })
-            } else {
-                console.log('something went wrong')
-            }
+                }
+            })
         })
 }
