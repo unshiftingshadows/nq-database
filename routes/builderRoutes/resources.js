@@ -20,11 +20,6 @@ const Topic = require('../../models/nqModels/Topic.js')
 
 const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
 
-const getMedia = {
-    'book': Book,
-
-}
-
 module.exports = function (req, res) {
     console.log('type', req.body.type)
     console.log('id', req.body.id)

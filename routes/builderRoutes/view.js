@@ -78,7 +78,7 @@ module.exports = function (req, res) {
             var type = req.body.type
             console.log('uid', decodedToken.uid)
             firebase.db.ref('/users/' + decodedToken.uid + '/nqUser').once('value', (nqUser) => {
-                if (!nqUser) {
+                if (!nqUser.val()) {
                     if (Object.keys(otherMedia).includes(type)) {
                         otherMedia[type].findOne({ _id: req.body.id }).exec(function (err, items) {
                             if (err) console.log(err)

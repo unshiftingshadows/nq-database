@@ -12,6 +12,11 @@ var lyricSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    medium: {
+        type: String,
+        enum: ['song', 'poem'],
+        required: true
+    },
     tags: {
         type: [String],
         default: []
@@ -23,11 +28,6 @@ var lyricSchema = new Schema({
     title: {
         type: String,
         default: ''
-    },
-    type: {
-        type: String,
-        enum: ['song', 'poem'],
-        required: true
     },
     user: {
         type: String,

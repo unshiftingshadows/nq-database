@@ -27,11 +27,11 @@ const otherContent = {
 }
 
 const newMedia = {
-    'quote': Quote,
-    'image': Image,
-    'illustration': Illustration,
-    'lyric': Lyric,
-    'video': Video
+    'oquotes': Quote,
+    'oimages': Image,
+    'oillustrations': Illustration,
+    'olyrics': Lyric,
+    'ovideos': Video
 }
 
 module.exports = function (req, res) {

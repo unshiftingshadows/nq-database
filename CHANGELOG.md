@@ -1,6 +1,16 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.26 - 2018-04-09
+### Added
+- search now returns other media for builder users without an nq account by searching for specific search terms across the tags, title, and text fields
+
+### Changed
+- removed unused code in resources route
+- fixed nqUser check in view route
+- list route now uses the correct format of types for other media
+- Lyric uses 'medium' instead of 'type' to denote either song or poem
+
 ## 0.0.25 - 2018-04-08
 ### Added
 - models for media for users that do not use Notes and Quotes
