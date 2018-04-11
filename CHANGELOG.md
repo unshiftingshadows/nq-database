@@ -1,6 +1,19 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.27 - 2018-04-10
+### Added
+- Scratch item for other curriculum
+- some functions and declarations in add route to fix issues adding new omedia
+
+### Changed
+- list route uses singular types rather than plural
+- medium is now not required for Lyric
+- mediaType is now not required for Quote
+
+### Fixed
+- view returns proper content when non-NQ user is accessing
+
 ## 0.0.26 - 2018-04-09
 ### Added
 - search now returns other media for builder users without an nq account by searching for specific search terms across the tags, title, and text fields

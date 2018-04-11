@@ -2,12 +2,18 @@ const Schema = require('mongoose').Schema
 
 const config = require('../../real_config.js')
 const firebase = require('../../firebase.js').builder
+const api_cred = require('../../api_cred.js')
+
+const https = require('https')
+const axios = require('axios')
+const getVideoId = require('get-video-id')
 
 // Import media types
 const SeriesReal = require('../../models/builderModels/models-real/Series.js')
 const SeriesOther = require('../../models/builderModels/models-other/Series.js')
 const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
 const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
+const ScratchOther = require('../../models/builderModels/models-other/Scratch.js')
 
 // Import other media types
 const Quote = require('../../models/builderModels/models-other/Quote.js')
@@ -26,6 +32,8 @@ function newContent (type, data) {
             return new LessonOther(data)
         case 'osermon':
             return new SermonOther(data)
+        case 'oscratch':
+            return new ScratchOther(data)
         default:
             return false
     }
@@ -33,7 +41,9 @@ function newContent (type, data) {
 
 function newQuote (data, uid, callback) {
     console.log('started newQuote')
-    var obj = data
+    var obj = {
+        text: data.data
+    }
     obj.user = uid
     var quote = new Quote(obj)
     quote.save(function (err, updatedQuote) {
@@ -44,7 +54,9 @@ function newQuote (data, uid, callback) {
 
 function newIllustration (data, uid, callback) {
     console.log('started newIllustration')
-    var obj = data
+    var obj = {
+        title: data.data
+    }
     obj.user = uid
     var illustration = new Illustration(obj)
     illustration.save(function (err, updatedIllustration) {
@@ -55,7 +67,9 @@ function newIllustration (data, uid, callback) {
 
 function newLyric (data, uid, callback) {
     console.log('started newLyric')
-    var obj = data
+    var obj = {
+        title: data.data
+    }
     obj.user = uid
     var lyric = new Lyric(obj)
     lyric.save(function (err, updatedLyric) {
@@ -75,13 +89,6 @@ function wikiImageSearch (title, callback) {
             var results = JSON.parse(data.slice(5, data.length - 1))
             var imageInfo = results.query.pages[Object.keys(results.query.pages)[0]].imageinfo[0]
             console.log(imageInfo)
-            var author = htmlToText.fromString(imageInfo.extmetadata.Artist.value, {
-                wordwrap: false
-            })
-            var href = ''
-            if (imageInfo.extmetadata.Artist.value.match(/href="([^"]*)/) !== null) {
-                href = imageInfo.extmetadata.Artist.value.match(/href="([^"]*)/)[1]
-            }
             callback({
                 thumbURL: imageInfo.thumburl,
                 imageURL: imageInfo.url,
@@ -94,9 +101,9 @@ function wikiImageSearch (title, callback) {
 
 function newImage (data, uid, callback) {
     console.log('started newImage')
-    switch (data.type) {
+    switch (data.service) {
         case 'wiki':
-            wikiImageSearch(data.title, (res) => {
+            wikiImageSearch(data.data, (res) => {
                 var image = new Image(res)
                 image.user = uid
                 console.log(image)
@@ -108,9 +115,42 @@ function newImage (data, uid, callback) {
             })
             break
         case 'link':
-        case 'storage':
+            data.imageURL = data.data
+            data.thumbURL = data.data
+            data.pageURL = data.data
+            var image = new Image(data)
+            image.user = uid
+            console.log('link image', image)
+        case 'upload':
         default:
     }
+}
+
+function parseDuration (duration) {
+    var a = duration.match(/\d+/g)
+    if (duration.indexOf('M') >= 0 && duration.indexOf('H') === -1 && duration.indexOf('S') === -1) {
+      a = [0, a[0], 0]
+    }
+    if (duration.indexOf('H') >= 0 && duration.indexOf('M') === -1) {
+      a = [a[0], 0, a[1]]
+    }
+    if (duration.indexOf('H') >= 0 && duration.indexOf('M') === -1 && duration.indexOf('S') === -1) {
+      a = [a[0], 0, 0]
+    }
+    duration = 0
+    if (a.length === 3) {
+      duration = duration + parseInt(a[0]) * 3600
+      duration = duration + parseInt(a[1]) * 60
+      duration = duration + parseInt(a[2])
+    }
+    if (a.length === 2) {
+      duration = duration + parseInt(a[0]) * 60
+      duration = duration + parseInt(a[1])
+    }
+    if (a.length === 1) {
+      duration = duration + parseInt(a[0])
+    }
+    return duration
 }
 
 function videoInfoSearch (videoURL, callback) {
@@ -162,7 +202,7 @@ function videoInfoSearch (videoURL, callback) {
 
 function newVideo (data, uid, callback) {
     console.log('started newVideo')
-    videoInfoSearch(data.url, (res) => {
+    videoInfoSearch(data.data, (res) => {
         var video = new Video(res)
         video.user = uid
         console.log(video)
@@ -194,7 +234,7 @@ module.exports = function (req, res) {
             var data = req.body.data
             if (Object.keys(newMedia).includes(type)) {
                 newMedia[type](data, decodedToken.uid, (item) => {
-                    if (!result) {
+                    if (!item) {
                         res.status(400).send('new media not added...')
                     } else {
                         res.send(item)
@@ -226,6 +266,8 @@ module.exports = function (req, res) {
                                 res.send(updated)
                             }
                         });
+                    } else if (type === 'oscratch') {
+                        res.send(updated)
                     }
                     // res.send(updated)
                 })

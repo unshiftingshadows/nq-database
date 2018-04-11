@@ -7,6 +7,7 @@ const SeriesReal = require('../../models/builderModels/models-real/Series.js')
 const SeriesOther = require('../../models/builderModels/models-other/Series.js')
 const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
 const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
+const ScratchOther = require('../../models/builderModels/models-other/Scratch.js')
 
 const Book = require('../../models/nqModels/Book.js')
 const Movie = require('../../models/nqModels/Movie.js')
@@ -31,7 +32,8 @@ var realContent = {
 var otherContent = {
     'oseries': SeriesOther,
     'olesson': LessonOther,
-    'osermon': SermonOther
+    'osermon': SermonOther,
+    'oscratch': ScratchOther
 }
 
 var mediaTypes = {
@@ -79,7 +81,13 @@ module.exports = function (req, res) {
             console.log('uid', decodedToken.uid)
             firebase.db.ref('/users/' + decodedToken.uid + '/nqUser').once('value', (nqUser) => {
                 if (!nqUser.val()) {
-                    if (Object.keys(otherMedia).includes(type)) {
+                    if (Object.keys(otherContent).includes(type)) {
+                        otherContent[type].findOne({ _id: req.body.id }).exec(function (err, items) {
+                            if (err) console.log(err)
+                            console.log(items)
+                            res.send(items)
+                        })
+                    } else if (Object.keys(otherMedia).includes(type)) {
                         otherMedia[type].findOne({ _id: req.body.id }).exec(function (err, items) {
                             if (err) console.log(err)
                             console.log(items)

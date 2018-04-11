@@ -15,7 +15,7 @@ var lyricSchema = new Schema({
     medium: {
         type: String,
         enum: ['song', 'poem'],
-        required: true
+        default: 'song'
     },
     tags: {
         type: [String],

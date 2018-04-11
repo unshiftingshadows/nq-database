@@ -6,6 +6,7 @@ const SeriesReal = require('../../models/builderModels/models-real/Series.js')
 const SeriesOther = require('../../models/builderModels/models-other/Series.js')
 const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
 const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
+const ScratchOther = require('../../models/builderModels/models-other/Scratch.js')
 
 const Topic = require('../../models/nqModels/Topic.js')
 
@@ -22,16 +23,17 @@ const realContent = {
 
 const otherContent = {
     'oseries': SeriesOther,
-    'olessons': LessonOther,
-    'osermons': SermonOther
+    'olesson': LessonOther,
+    'osermon': SermonOther,
+    'oscratch': ScratchOther
 }
 
 const newMedia = {
-    'oquotes': Quote,
-    'oimages': Image,
-    'oillustrations': Illustration,
-    'olyrics': Lyric,
-    'ovideos': Video
+    'oquote': Quote,
+    'oimage': Image,
+    'oillustration': Illustration,
+    'olyric': Lyric,
+    'ovideo': Video
 }
 
 module.exports = function (req, res) {

@@ -8,6 +8,7 @@ const SeriesReal = require('../../models/builderModels/models-real/Series.js')
 const SeriesOther = require('../../models/builderModels/models-other/Series.js')
 const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
 const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
+const ScratchOther = require('../../models/builderModels/models-other/Scratch.js')
 
 // Import other media types
 const Quote = require('../../models/builderModels/models-other/Quote.js')
@@ -20,7 +21,8 @@ const mediaList = {
     'rseries': SeriesReal,
     'oseries': SeriesOther,
     'olesson': LessonOther,
-    'osermon': SermonOther
+    'osermon': SermonOther,
+    'oscratch': ScratchOther
 }
 
 const otherMedia = {

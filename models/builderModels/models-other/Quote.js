@@ -16,7 +16,7 @@ var quoteSchema = new Schema({
     mediaType: {
         type: String,
         enum: ['book','movie','speech'],
-        required: true
+        default: 'book'
     },
     tags: {
         type: [String],
