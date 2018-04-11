@@ -91,7 +91,9 @@ module.exports = function (req, res) {
                         otherMedia[type].findOne({ _id: req.body.id }).exec(function (err, items) {
                             if (err) console.log(err)
                             console.log(items)
-                            res.send(items)
+                            res.send({
+                                resource: items
+                            })
                         })
                     } else {
                         console.log('something went wrong')

@@ -100,20 +100,23 @@ module.exports = function (req, res) {
             } else if (type === 'omedia') {
                 console.log('other media search')
                 Promise.all([
-                    OQuote.find({ user: decodedToken.uid }).exec(),
-                    OImage.find({ user: decodedToken.uid }).exec(),
-                    OIllustration.find({ user: decodedToken.uid }).exec(),
-                    OLyric.find({ user: decodedToken.uid }).exec(),
-                    OVideo.find({ user: decodedToken.uid }).exec()
+                    OQuote.find({ user: decodedToken.uid }).lean().exec(),
+                    OImage.find({ user: decodedToken.uid }).lean().exec(),
+                    OIllustration.find({ user: decodedToken.uid }).lean().exec(),
+                    OLyric.find({ user: decodedToken.uid }).lean().exec(),
+                    OVideo.find({ user: decodedToken.uid }).lean().exec()
                 ]).then((items) => {
                     console.log(items)
                     var listTypes = ['quote', 'image', 'illustration', 'lyric', 'video']
+                    var allItems = []
                     items.forEach((listType, index) => {
                         listType.forEach((item) => {
                             item.type = listTypes[index]
+                            console.log('item', item, listTypes[index])
+                            allItems.push(item)
                         })
                     })
-                    var allItems = items[0].concat(items[1], items[2], items[3], items[4])
+                    // var allItems = items[0].concat(items[1], items[2], items[3], items[4])
                     // Search with fuse
                     var options = {
                         keys: [{
@@ -129,8 +132,8 @@ module.exports = function (req, res) {
                     }
                     var search = new Fuse(allItems, options)
                     var result = search.search(terms)
-                    console.log(items)
-                    res.send(items)
+                    console.log(result)
+                    res.send(result)
                 })
                 .catch(function(err) {
                     console.log('error with search media', err)

@@ -122,6 +122,14 @@ function newImage (data, uid, callback) {
             image.user = uid
             console.log('link image', image)
         case 'upload':
+            var image = new Image(data)
+            image.user = uid
+            console.log('upload image', image)
+            image.save(function (err, updatedImage) {
+                console.log('image err', err)
+                if (err) return callback(false)
+                callback(updatedImage)
+            })
         default:
     }
 }

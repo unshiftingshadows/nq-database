@@ -1,6 +1,15 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.28 - 2018-04-11
+### Added
+- builder images uploaded now can be added
+
+### Changed
+- builder search now is more efficient and properly adds type properties when all media is being returned
+- builder view route for other media returns an object with a resource property to match data that would come from NQ
+- Other Quotes now have a mediaid section to contain title and author to match what comes from NQ
+
 ## 0.0.27 - 2018-04-10
 ### Added
 - Scratch item for other curriculum

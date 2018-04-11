@@ -2,7 +2,6 @@ const mongoose = require('../../../db_connections/other-connect.js')
 const Schema = require('mongoose').Schema
 
 var quoteSchema = new Schema({
-    author: String,
     bibleRefs: [String],
     dateAdded: {
         type: Date,
@@ -12,7 +11,16 @@ var quoteSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    mediaTitle: String,
+    mediaid: {
+        author: {
+            type: String,
+            default: ''
+        },
+        title: {
+            type: String,
+            default: ''
+        }
+    },
     mediaType: {
         type: String,
         enum: ['book','movie','speech'],

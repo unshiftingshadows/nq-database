@@ -28,7 +28,7 @@ const otherContent = {
     'oscratch': ScratchOther
 }
 
-const newMedia = {
+const otherMedia = {
     'oquote': Quote,
     'oimage': Image,
     'oillustration': Illustration,
@@ -62,8 +62,8 @@ module.exports = function (req, res) {
                     console.log(items)
                     res.send(items)
                 })
-            } else if (Object.keys(newMedia).includes(type)) {
-                newMedia[type].find({ user: decodedToken.uid }).exec(function (err, items) {
+            } else if (Object.keys(otherMedia).includes(type)) {
+                otherMedia[type].find({ user: decodedToken.uid }).exec(function (err, items) {
                     if (err) console.log(err)
                     console.log(items)
                     res.send(items)

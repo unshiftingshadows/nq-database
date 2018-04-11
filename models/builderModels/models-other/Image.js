@@ -17,7 +17,7 @@ var imageSchema = new Schema({
     },
     service: {
         type: String,
-        enum: ['wiki', 'link', 'storage'],
+        enum: ['wiki', 'link', 'upload'],
         required: true
     },
     storageID: {
