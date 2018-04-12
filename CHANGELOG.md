@@ -1,6 +1,16 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.29 - 2018-04-12
+Adding Bible translations!!
+
+### Added
+- bible-passage-reference-parser for parsing references (to be adopted on the client-side eventually as well)
+- Digital Bible Platform API connection for NASB, NIV, NKJV, KJV, ASV, WEB
+- bibliaapi.com API for LEB
+- labs.bible.org for NET
+- api.nlt.to for NLT (unfinished...need to remove extra HTML from the response)
+
 ## 0.0.28 - 2018-04-11
 ### Added
 - builder images uploaded now can be added
