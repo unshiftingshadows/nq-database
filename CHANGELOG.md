@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.31 - 2018-04-13
+### Changed
+- nq list now uses singular types rather than plural
+
 ## 0.0.30 - 2018-04-13
 ### Changed
 - updated builder media to use osis for bibleRefs

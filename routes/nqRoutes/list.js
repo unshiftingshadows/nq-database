@@ -18,20 +18,20 @@ const Illustration = require('../../models/nqModels/Illustration.js')
 const Topic = require('../../models/nqModels/Topic.js')
 
 var mediaList = {
-    'books': Book,
-    'movies': Movie,
-    'images': Image,
-    'videos': Video,
-    'articles': Article,
-    'notes': Note,
-    'documents': Doc,
-    'discourses': Discourse,
-    'compositions': Composition,
-    'quotes': Quote,
+    'book': Book,
+    'movie': Movie,
+    'image': Image,
+    'video': Video,
+    'article': Article,
+    'note': Note,
+    'document': Doc,
+    'discourse': Discourse,
+    'composition': Composition,
+    'quote': Quote,
     'outline': Outline,
     'idea': Idea,
     'illustration': Illustration,
-    'topics': Topic
+    'topic': Topic
 }
 
 module.exports = function (req, res) {
@@ -42,11 +42,11 @@ module.exports = function (req, res) {
         .then(function(decodedToken) {
             var type = req.body.type
             console.log('uid', decodedToken.uid)
-            if (config.mediaTypes.includes(type.slice(0, -1))) {
-                if (type == 'quotes') {
+            if (config.mediaTypes.includes(type)) {
+                if (type == 'quote') {
                     // TODO: Add logic for populating quotes before sending
                     // To be used for pulling all quotes at once -- probably not a regular thing to do
-                } else if (type == 'notes') {
+                } else if (type == 'note') {
                     Note.find({}).where('user', decodedToken.uid).exec(function (err, items) {
                         if (err) console.log(err.message)
                         console.log(items)
