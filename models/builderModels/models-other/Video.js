@@ -2,7 +2,10 @@ const mongoose = require('../../../db_connections/other-connect.js')
 const Schema = require('mongoose').Schema
 
 var videoSchema = new Schema({
-    bibleRefs: [String],
+    bibleRefs: {
+        type: [String],
+        default: []
+    },
     dateAdded: {
         type: Date,
         default: Date.now

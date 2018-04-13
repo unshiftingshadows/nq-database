@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.30 - 2018-04-13
+### Changed
+- updated builder media to use osis for bibleRefs
+
 ## 0.0.29 - 2018-04-12
 Adding Bible translations!!
 

@@ -6,7 +6,10 @@ const config = require('../../../real_config.js')
 const Series = require('./Series.js')
 
 var lessonSchema = new Schema({
-    bibleRefs: [config.bibleRefSchema], // refs that the lesson is primarily focused on, not all refs used in the lesson
+    bibleRefs: {
+        type: [String],
+        default: []
+    }, // refs that the lesson is primarily focused on, not all refs used in the lesson
     createdBy: {
         type: String,
         required: true

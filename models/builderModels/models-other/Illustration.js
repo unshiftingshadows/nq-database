@@ -3,7 +3,10 @@ const Schema = require('mongoose').Schema
 
 var illustrationSchema = new Schema({
     author: String,
-    bibleRefs: [String],
+    bibleRefs: {
+        type: [String],
+        default: []
+    },
     dateAdded: {
         type: Date,
         default: Date.now
