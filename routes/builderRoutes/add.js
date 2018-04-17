@@ -276,6 +276,23 @@ module.exports = function (req, res) {
                         });
                     } else if (type === 'oscratch') {
                         res.send(updated)
+                    } else if (type === 'rseries') {
+                        // Add database reference to Firebase
+                        var roles = {}
+                        roles[decodedToken.uid] = 'admin'
+                        firebase.db.ref('r/series/' + updated._id).set({
+                            title: data.title,
+                            mainIdea: '',
+                            roles: roles
+                        }, function(err) {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                res.send(updated)
+                            }
+                        });
+                    } else {
+                        res.status(400).send('Incorrect content type...')
                     }
                     // res.send(updated)
                 })
