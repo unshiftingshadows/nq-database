@@ -22,6 +22,7 @@ const buildersearch = require('./builderRoutes/search.js')
 const builderbible = require('./builderRoutes/bible.js')
 const builderresources = require('./builderRoutes/resources.js')
 const builderresearch = require('./builderRoutes/research.js')
+const builderuser = require('./builderRoutes/user.js')
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
@@ -52,6 +53,7 @@ app.get('/builder', function (req, res) {
 })
 
 // Builder Routes
+app.get('/builder/user', user)
 app.post('/builder/list', builderlist)
 app.post('/builder/add', builderadd)
 // app.post('/builder/remove', builderremove)

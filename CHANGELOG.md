@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.33 - 2018-05-16
+### Added
+- user route for adding new users to the builder
+
 ## 0.0.32 - 2018-04-17
 ### Added
 - rseries can now be added properly (still missing topics/resources...not sure how that will work in the future)

@@ -27,6 +27,7 @@ module.exports = {
     },
     builder: {
         verifyID: builderVerifyID,
-        db: builderApp.database()
+        db: builderApp.database(),
+        auth: builderApp.auth()
     }
 }
