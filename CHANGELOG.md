@@ -1,6 +1,13 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.34 - 2018-05-18
+### Changed
+- user route works properly now
+- adds random password
+- uses Mailgun to send password to new user
+- new users are subscribed to MailChimp list
+
 ## 0.0.33 - 2018-05-16
 ### Added
 - user route for adding new users to the builder
