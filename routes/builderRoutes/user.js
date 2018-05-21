@@ -82,6 +82,16 @@ module.exports = function (req, res) {
                         lyric: false,
                         quote: true,
                         video: true
+                    },
+                    osermonStructure: {
+                        hook: true,
+                        application: true,
+                        prayer: true
+                    },
+                    olessonStructure: {
+                        hook: true,
+                        application: true,
+                        prayer: true
                     }
                 },
                 realUser: false,

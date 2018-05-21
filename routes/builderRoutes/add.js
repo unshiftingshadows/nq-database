@@ -25,15 +25,15 @@ const Video = require('../../models/builderModels/models-other/Video.js')
 function newContent (type, data) {
     switch (type) {
         case 'rseries':
-            return new SeriesReal(data)
+            return new SeriesReal({title: data})
         case 'oseries':
-            return new SeriesOther(data)
+            return new SeriesOther({title: data})
         case 'olesson':
-            return new LessonOther(data)
+            return new LessonOther({title: data})
         case 'osermon':
-            return new SermonOther(data)
+            return new SermonOther({title: data})
         case 'oscratch':
-            return new ScratchOther(data)
+            return new ScratchOther({title: data})
         default:
             return false
     }
@@ -249,7 +249,7 @@ module.exports = function (req, res) {
                     }
                 })
             } else {
-                var obj = newContent(type, data)
+                var obj = newContent(type, data.title)
                 obj.createdBy = decodedToken.uid
                 obj.users = [decodedToken.uid]
                 if (!obj) res.status(400).send('Problem...')
@@ -262,15 +262,26 @@ module.exports = function (req, res) {
                             if (err) {
                                 console.log(err)
                             } else {
-                                res.send(updated)
+                                firebase.db.ref('o/lessons/' + updated._id + '/structure/hook').update({show: data.prefs.hook})
+                                firebase.db.ref('o/lessons/' + updated._id + '/structure/application').update({show: data.prefs.application})
+                                firebase.db.ref('o/lessons/' + updated._id + '/structure/prayer').update({show: data.prefs.prayer})
+                                // Add template content to modules section
+                                if (data.template !== 'blank') {
+                                    firebase.db.ref('o/lessons/' + updated._id + '/modules/').set()
+                                } else {
+                                    res.send(updated)
+                                }
                             }
                         });
                     } else if (type === 'osermon') {
                         // Add database reference to Firebase
-                        firebase.db.ref('o/sermons/' + updated._id + '/structure/').set(config.initOLesson, function(err) {
+                        firebase.db.ref('o/sermons/' + updated._id + '/structure/').set(config.initOSermon, function(err) {
                             if (err) {
                                 console.log(err)
                             } else {
+                                firebase.db.ref('o/sermons/' + updated._id + '/structure/hook').update({show: data.prefs.hook})
+                                firebase.db.ref('o/sermons/' + updated._id + '/structure/application').update({show: data.prefs.application})
+                                firebase.db.ref('o/sermons/' + updated._id + '/structure/prayer').update({show: data.prefs.prayer})
                                 res.send(updated)
                             }
                         });

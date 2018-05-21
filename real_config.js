@@ -107,9 +107,96 @@ var initOLesson = {
 }
 
 var initOSermon = {
-    init: {
+    hook: {
+        title: '',
+        text: '',
+        wordcount: 0,
+        time: 0,
         slide: false,
         editing: false
+    },
+    application: {
+        title: '',
+        today: '',
+        thisweek: '',
+        thought: '',
+        wordcount: 0,
+        time: 0,
+        slide: false,
+        editing: false
+    },
+    prayer: {
+        text: '',
+        wordcount: 0,
+        time: 0,
+        slide: false,
+        editing: false
+    }
+}
+
+// Templates
+var templates = {
+    '3point': {
+        'section1': {
+            editing: false,
+            number: 1,
+            order: 0,
+            slide: false,
+            time: 0,
+            title: 'Section 1',
+            type: 'section',
+            wordcount: 0
+        },
+        'text1': {
+            editing: false,
+            order: 1,
+            slide: false,
+            text: '<p>Section 1\'s text...make it good! :-)',
+            time: 1,
+            title: 'Section 1 Text',
+            type: 'text',
+            wordcount: 6
+        },
+        'section2': {
+            editing: false,
+            number: 2,
+            order: 2,
+            slide: false,
+            time: 0,
+            title: 'Section 2',
+            type: 'section',
+            wordcount: 0
+        },
+        'text2': {
+            editing: false,
+            order: 3,
+            slide: false,
+            text: '<p>Section 2\'s text...it can be less good',
+            time: 1,
+            title: 'Section 2 Text',
+            type: 'text',
+            wordcount: 8
+        },
+        'section3': {
+            editing: false,
+            number: 3,
+            order: 4,
+            slide: false,
+            time: 0,
+            title: 'Section 3',
+            type: 'section',
+            wordcount: 0
+        },
+        'text3': {
+            editing: false,
+            order: 5,
+            slide: false,
+            text: '<p>Section 3\'s text...gotta be amazing!!!',
+            time: 1,
+            title: 'Section 3 Text',
+            type: 'text',
+            wordcount: 6
+        }
     }
 }
 
@@ -121,5 +208,6 @@ module.exports = {
     bibleRefSchema: bibleRefSchema,
     mediaRefSchema: mediaRefSchema,
     researchRefSchema: researchRefSchema,
-    initOLesson: initOLesson
+    initOLesson: initOLesson,
+    initOSermon: initOSermon
 }

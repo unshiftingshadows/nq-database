@@ -1,6 +1,11 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.35 - 2018-05-21
+### Changed
+- new sermons/lessons follow user's preferences for hook/application/prayer
+- new users start with hook/application/prayer on by default
+
 ## 0.0.34 - 2018-05-18
 ### Changed
 - user route works properly now
