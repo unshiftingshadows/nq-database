@@ -68,6 +68,7 @@ module.exports = function (req, res) {
                     first: req.query.first,
                     last: req.query.last
                 },
+                newUser: true,
                 nqUser: false,
                 prefs: {
                     bibleTranslation: 'nas',
