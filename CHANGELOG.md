@@ -1,6 +1,17 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.37 - 2018-06-05
+### Added
+- upload and link images can now be added
+- documents can now be added
+
+### Changed
+- removed fileid from Document model
+- added fileType to Document model
+- changed requirments of Image model
+- changed storage type for Image to upload
+
 ## 0.0.36 - 2018-05-22
 ### Changed
 - new users are marked as "new" so they can change their password after logging in the first time

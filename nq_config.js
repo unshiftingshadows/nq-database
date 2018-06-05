@@ -27,7 +27,7 @@ var status = [
 var imageSources = [
     'wiki',
     'link',
-    'storage'
+    'upload'
 ]
 
 var videoSources = [

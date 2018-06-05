@@ -356,7 +356,53 @@ function newImage (data, uid, callback) {
             })
             break
         case 'link':
-        case 'storage':
+            var image = new Image({
+                title: 'linked image',
+                author: [],
+                authorurl: '',
+                thumbURL: data.url,
+                imageURL: data.url,
+                postDate: new Date(),
+                credit: '',
+                usageTerms: '',
+                description: '',
+                attributionRequired: true,
+                pageURL: data.url,
+                source: 'link',
+                users: [uid]
+            })
+            console.log('link image', image)
+            image.save(function (err, updatedImage) {
+                console.log(err)
+                if (err) return callback(false)
+                console.log('added image and saved')
+                callback(updatedImage)
+            })
+            break
+        case 'upload':
+            var image = new Image({
+                title: data.title,
+                author: [],
+                authorurl: '',
+                thumbURL: '',
+                imageURL: '',
+                postDate: new Date(),
+                credit: '',
+                usageTerms: '',
+                description: '',
+                attributionRequired: false,
+                pageURL: '',
+                source: 'upload',
+                users: [uid]
+            })
+            console.log(image)
+            image.save(function (err, updatedImage) {
+                console.log(err)
+                if (err) return callback(false)
+                console.log('added image and saved')
+                callback(updatedImage)
+            })
+            break
         default:
     }
 }
@@ -404,6 +450,7 @@ function newNote (data, uid, callback) {
 function newDocument (data, uid, callback) {
     console.log('started newDocument')
     var obj = data
+    obj.author = []
     obj.users = [uid]
     var document = new Doc(obj)
     document.save(function(err, updatedDocument) {

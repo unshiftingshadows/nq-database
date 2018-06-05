@@ -47,7 +47,7 @@ var imageSchema = new Schema({
     },
     pageURL: {
         type: String,
-        required: true
+        default: ''
     },
     postDate: {
         type: Date,
@@ -60,7 +60,7 @@ var imageSchema = new Schema({
     },
     thumbURL: {
         type: String,
-        required: true
+        default: ''
     },
     title: {
         type: String,

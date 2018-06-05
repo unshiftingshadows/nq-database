@@ -25,7 +25,7 @@ var documentSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    fileid: {
+    fileType: {
         type: String,
         required: true
     },
