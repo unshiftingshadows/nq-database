@@ -71,6 +71,7 @@ const otherMedia = {
 }
 
 module.exports = function (req, res) {
+    console.log('--builder view run--')
     console.log('type', req.body.type)
     console.log('id', req.body.id)
     var token = req.body.token
@@ -96,7 +97,7 @@ module.exports = function (req, res) {
                             })
                         })
                     } else {
-                        console.log('something went wrong')
+                        console.log('something went wrong - non-NQ')
                     }
                 } else {
                     if (Object.keys(otherContent).includes(type)) {
@@ -138,7 +139,7 @@ module.exports = function (req, res) {
                             })
                         })
                     } else {
-                        console.log('something went wrong')
+                        console.log('something went wrong - NQ')
                     }
                 }
             })

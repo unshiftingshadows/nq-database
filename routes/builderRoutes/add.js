@@ -231,6 +231,7 @@ const newMedia = {
 }
 
 module.exports = function (req, res) {
+    console.log('--builder add run--')
     console.log('type', req.body.type)
     console.log('resource data', req.body.data)
     var token = req.body.token

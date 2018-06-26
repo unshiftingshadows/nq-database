@@ -18,9 +18,16 @@ const Illustration = require('../../models/nqModels/Illustration.js')
 
 const Topic = require('../../models/nqModels/Topic.js')
 
+const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
 const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
 
+const mediaType = {
+    'osermon': SermonOther,
+    'olesson': LessonOther
+}
+
 module.exports = function (req, res) {
+    console.log('--builder resources run--')
     console.log('type', req.body.type)
     console.log('id', req.body.id)
     var token = req.body.token
@@ -30,15 +37,15 @@ module.exports = function (req, res) {
             var type = req.body.type
             var id = req.body.id
             console.log('uid', decodedToken.uid)
-            if (type === 'olesson') {
-                LessonOther.findOne({ _id: id }).populate({ path: 'research.media', model: Topic, populate: { path: 'resources.media', model: 'resources.type', populate: { path: 'mediaid', model: 'mediaType' } } }).exec(function (err, items) {
-                    if (err) console.log(err)
+            if (Object.keys(mediaType).includes(type)) {
+                mediaType[type].findOne({ _id: id }).populate({ path: 'research.media', model: Topic, populate: { path: 'resources.media', model: 'resources.type', populate: { path: 'mediaid', model: 'mediaType' } } }).exec(function (err, items) {
+                    if (err) console.log('resources error', err)
                     console.log('new')
                     console.log(items)
                     res.send(items)
                 })
             } else {
-                console.log('something went wrong')
+                console.log('something went wrong - resources')
             }
         })
 }

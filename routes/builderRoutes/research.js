@@ -5,11 +5,13 @@ const config = require('../../real_config.js')
 const firebase = require('../../firebase.js').builder
 
 // Import media types
+const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
 const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
 
 const Topic = require('../../models/nqModels/Topic.js')
 
 const mediaType = {
+    'osermon': SermonOther,
     'olesson': LessonOther
 }
 
@@ -18,6 +20,7 @@ const researchType = {
 }
 
 module.exports = function (req, res) {
+    console.log('--builder research run--')
     console.log('action', req.body.action)
     console.log('type', req.body.type)
     console.log('id', req.body.id)

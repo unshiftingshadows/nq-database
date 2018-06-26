@@ -200,6 +200,7 @@ function getNLT (ref, version, res) {
 }
 
 module.exports = function (req, res) {
+    console.log('--builder bible run--')
     console.log('ref', req.body.ref)
     console.log('version', req.body.version)
     var token = req.body.token

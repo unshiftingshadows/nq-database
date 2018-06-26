@@ -6,6 +6,7 @@ const request = require('superagent')
 // const mailchimp = require('mailchimp-node')(api_cred.mailchimp)
 
 module.exports = function (req, res) {
+    console.log('--builder user run--')
     console.log('request', req.query)
     const action = req.query.action
     // TODO: Check for admin uid before adding/deleting users

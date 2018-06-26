@@ -34,6 +34,7 @@ const otherMedia = {
 }
 
 module.exports = function (req, res) {
+    console.log('--builder update run--')
     console.log('type', req.body.type)
     console.log('id', req.body.id)
     console.log('resource data', req.body.data)

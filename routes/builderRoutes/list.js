@@ -37,6 +37,7 @@ const otherMedia = {
 }
 
 module.exports = function (req, res) {
+    console.log('--builder list run--')
     console.log('type', req.body.type)
     var token = req.body.token
     

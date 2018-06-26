@@ -1,6 +1,16 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.38 - 2018-06-26
+### Added
+- console log for all builder routes to distinguish which routes are running during a single call
+- sermon option for research route
+- sermon opiton for resources route
+- NQ content to search route
+
+### Changed
+- various error logs for clarity
+
 ## 0.0.37 - 2018-06-05
 ### Added
 - upload and link images can now be added
