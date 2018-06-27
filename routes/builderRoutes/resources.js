@@ -61,8 +61,24 @@ module.exports = function (req, res) {
             var resourceType = req.body.resource.type
             console.log('uid', decodedToken.uid)
             if (Object.keys(mediaType).includes(type)) {
+                var query = {}
+                    switch (type) {
+                        case 'osermon':
+                        case 'olesson':
+                            query._id = id
+                            break
+                        case 'rseries':
+                            query.seriesid = id
+                            break
+                        case 'rlesson':
+                            query.lessonid = id
+                            break
+                        case 'rdevo':
+                            query.devoid = id
+                            break
+                    }
                 if (action === 'list') {
-                    mediaType[type].findOne({ lessonid: id }).populate({ path: 'research.media', model: Topic, populate: { path: 'resources.media', populate: { path: 'mediaid', model: 'mediaType', select: 'title author thumbURL' } } }).populate({ path: 'selection', model: Selection, populate: { path: 'resources.media', populate: { path: 'mediaid', select: 'title author thumbURL' } } }).exec(function (err, items) {
+                    mediaType[type].findOne(query).populate({ path: 'research.media', model: Topic, populate: { path: 'resources.media', populate: { path: 'mediaid', model: 'mediaType', select: 'title author thumbURL' } } }).populate({ path: 'selection', model: Selection, populate: { path: 'resources.media', populate: { path: 'mediaid', select: 'title author thumbURL' } } }).exec(function (err, items) {
                         if (err) {
                             console.log('resources error', err)
                             res.status(400).send('Resources failed')
@@ -72,15 +88,25 @@ module.exports = function (req, res) {
                             console.log('no resource container -- making a new one')
                             var coll = new Selection({})
                             coll.save(function (err, newSelection) {
-                                var obj = newType(type, id)
-                                obj.selection = newSelection._id
-                                obj.save(function (err, newLesson) {
-                                    if (err) {
-                                        console.log(err)
-                                    } else {
-                                        res.send(newLesson)
-                                    }
-                                })
+                                if (type.charAt(0) === 'r') {
+                                    var obj = newType(type, id)
+                                    obj.selection = newSelection._id
+                                    obj.save(function (err, newLesson) {
+                                        if (err) {
+                                            console.log('content not added for new resources', err)
+                                        } else {
+                                            res.send(newLesson)
+                                        }
+                                    })
+                                } else {
+                                    mediaType[type].updateOne({ _id: id }, { selection: newSelection._id }, function (err, updated) {
+                                        if (err) {
+                                            console.log('content not updated for new resources', err)
+                                        } else {
+                                            res.send(updated)
+                                        }
+                                    })
+                                }
                             })
                         } else {
                             console.log('resource items', items)
@@ -88,20 +114,22 @@ module.exports = function (req, res) {
                         }
                     })
                 } else if (action === 'add') {
-                    mediaType[type].findOne({ lessonid: id }).exec(function (err, item) {
+                    mediaType[type].findOne(query).exec(function (err, item) {
                         Selection.findOneAndUpdate({ _id: item.selection }, { $addToSet: { resources: { media: resourceid, type: resourceType } } }, (err, ret) => {
                             console.log(err)
-                            if (err) res.status(400).send('Update failed')
+                            if (err) res.status(400).send('Add resource failed')
                             console.log(ret)
                             res.send(ret)
                         })
                     })
                 } else if (action === 'remove') {
-                    mediaType[type].findOneAndUpdate({ lessonid: id }, { $pull: { resource: { media: resourceid } } }, (err, ret) => {
-                        console.log(err)
-                        if (err) res.status(400).send('Update failed')
-                        console.log(ret)
-                        res.send(ret)
+                    mediaType[type].findOne(query).exec(function (err, item) {
+                        Selection.findOneAndUpdate({ _id: item.selection }, { $pull: { resource: { media: resourceid } } }, (err, ret) => {
+                            console.log(err)
+                            if (err) res.status(400).send('Remove resource failed')
+                            console.log(ret)
+                            res.send(ret)
+                        })
                     })
                 }
             } else {

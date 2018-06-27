@@ -1,6 +1,13 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.40 - 2018-06-27
+### Added
+- selection prop to OLesson and OSermon for adding individual resources
+
+### Fixed
+- the new actions in resources now works with other builder content
+
 ## 0.0.39 - 2018-06-26
 ### Added
 - Lesson and Devo models for REAL Builder

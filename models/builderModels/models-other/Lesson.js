@@ -5,6 +5,8 @@ const config = require('../../../real_config.js')
 
 const Series = require('./Series.js')
 
+const Selection = require('../../nqModels/Selection.js')
+
 var lessonSchema = new Schema({
     bibleRefs: {
         type: [String],
@@ -20,6 +22,10 @@ var lessonSchema = new Schema({
     },
     media: [config.mediaRefSchema], // any media added from the builder side, not associated with a research object
     research: [config.researchRefSchema],
+    selection: {
+        type: Schema.Types.ObjectId,
+        ref: Selection
+    },
     seriesID: {
         type: Schema.Types.ObjectId,
         ref: 'series'
