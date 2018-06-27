@@ -17,6 +17,10 @@ var mediaTypes = [
     'none' // used for quotes that don't have a specific resource attached...still contemplating...
 ]
 
+var researchTypes = [
+    'topic'
+]
+
 var status = [
     'new',
     'current',
@@ -63,6 +67,7 @@ var bibleRefSchema = {
 
 module.exports = {
     mediaTypes: mediaTypes,
+    researchTypes: researchTypes,
     status: status,
     imageSources: imageSources,
     videoSources: videoSources,

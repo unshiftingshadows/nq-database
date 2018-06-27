@@ -10,9 +10,13 @@ const Image = require('./Image.js')
 const Video = require('./Video.js')
 const Article = require('./Article.js')
 const Note = require('./Note.js')
+const Composition = require('./Composition.js')
+const Document = require('./Document.js')
+const Discourse = require('./Discourse.js')
 const Quote = require('./Quote.js')
-// const Outline = require('./Outline.js')
-// const Idea = require('./Idea.js')
+const Outline = require('./Outline.js')
+const Idea = require('./Idea.js')
+const Illustration = require('./Illustration.js')
 
 var topicSchema = new Schema({
     bibleRefs: {

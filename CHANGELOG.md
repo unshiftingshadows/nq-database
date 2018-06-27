@@ -1,6 +1,20 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.39 - 2018-06-26
+### Added
+- Lesson and Devo models for REAL Builder
+    - each only holds research and a collection
+- Collection model for NQ
+    - holds resources for REAL content
+
+### Changed
+- various updates to models
+- resources now requires an action
+    - can list or add resources to a media (only rlesson for now)
+- search updated to return nqmedia items in the proper format, with a forced sort based on weight, and limited to the first 50 items
+- various changes to variable names for consistency's sake
+
 ## 0.0.38 - 2018-06-26
 ### Added
 - console log for all builder routes to distinguish which routes are running during a single call

@@ -173,35 +173,39 @@ module.exports = function (req, res) {
                 })
             } else if (type === 'nqmedia') {
                 console.log('nq media search')
-                Promise.all(Object.keys(nqMedia).map((e) => { return nqMedia[e].find().lean().exec()})).then((items) => {
+                Promise.all(Object.keys(nqMedia).map((e) => { return nqMedia[e].find().lean().populate({ path: 'mediaid', type: 'mediaType', select: 'title author thumbURL' }).exec()})).then((items) => {
                     // console.log('init items', items)
                     var listTypes = Object.keys(nqMedia)
                     var allItems = []
                     items.forEach((listType, index) => {
                         listType.forEach((item) => {
-                            item.type = listTypes[index]
-                            console.log('item', item, listTypes[index])
-                            allItems.push(item)
+                            // console.log('item', item, listTypes[index])
+                            allItems.push({
+                                media: item,
+                                type: listTypes[index]
+                            })
                         })
                     })
                     // var allItems = items[0].concat(items[1], items[2], items[3], items[4])
                     // Search with fuse
                     var options = {
+                        shouldSort: true,
                         keys: [{
-                            name: 'text',
+                            name: 'media.text',
                             weight: 0.1
                         }, {
-                            name: 'title',
+                            name: 'media.title',
                             weight: 0.3
                         }, {
-                            name: 'tags',
+                            name: 'media.tags',
                             weight: 0.6
                         }]
                     }
                     var search = new Fuse(allItems, options)
                     var result = search.search(terms)
-                    console.log(result)
-                    res.send(result)
+                    console.log('full length', allItems.length)
+                    console.log('result length', result.length)
+                    res.send(result.slice(0, 50))
                 })
                 .catch(function(err) {
                     console.log('error with search media', err)

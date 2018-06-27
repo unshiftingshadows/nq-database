@@ -5,6 +5,8 @@ const config = require('../../nq_config.js')
 
 const Book = require('./Book.js')
 const Movie = require('./Movie.js')
+const Article = require('./Article.js')
+const Discourse = require('./Discourse.js')
 
 var quoteSchema = new Schema({
     bibleRefs: [config.bibleRef],
