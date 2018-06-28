@@ -22,10 +22,10 @@ var lessonSchema = new Schema({
     },
     media: [config.mediaRefSchema], // any media added from the builder side, not associated with a research object
     research: [config.researchRefSchema],
-    selection: {
-        type: Schema.Types.ObjectId,
-        ref: Selection
-    },
+    // selection: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: Selection
+    // },
     seriesID: {
         type: Schema.Types.ObjectId,
         ref: 'series'
