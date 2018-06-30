@@ -94,7 +94,13 @@ module.exports = function (req, res) {
                         hook: true,
                         application: true,
                         prayer: true
-                    }
+                    },
+                    structureNames: {
+                        application: "Application",
+                        hook: "Hook",
+                        prayer: "Prayer"
+                    },
+                    speakingSpeed: 120
                 },
                 realUser: false,
                 theme: 'light'

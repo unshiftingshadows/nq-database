@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.42 - 2018-06-29
+### Changed
+- updated new user's info to include speakingSpeed and structureNames preferences
+
 ## 0.0.41 - 2018-06-28
 ### Changed
 - when adding research to REAL content, resources are now added to a collection that corresponds to the media
