@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.43 - 2018-07-02
+### Added
+- archive route and model for builder-other
+
 ## 0.0.42 - 2018-06-29
 ### Changed
 - updated new user's info to include speakingSpeed and structureNames preferences
