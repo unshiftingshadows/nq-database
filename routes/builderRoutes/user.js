@@ -102,6 +102,18 @@ module.exports = function (req, res) {
                     },
                     speakingSpeed: 120
                 },
+                stats: {
+                    lastPagePath: '',
+                    numsermon: 0,
+                    numlesson: 0,
+                    numscratch: 0,
+                    numarchive: 0,
+                    numquote: 0,
+                    numimage: 0,
+                    numvideo: 0,
+                    numlyric: 0,
+                    numillustration: 0
+                },
                 realUser: false,
                 theme: 'light'
             }).then(function() {

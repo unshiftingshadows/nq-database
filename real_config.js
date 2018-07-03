@@ -79,58 +79,65 @@ var researchRefSchema = {
 }
 
 var initOLesson = {
-    hook: {
-        title: '',
-        text: '',
-        wordcount: 0,
-        time: 0,
-        slide: false,
-        editing: false
+    before: {
+        hook: {
+            text: '',
+            wordcount: 0,
+            time: 0,
+            slide: false,
+            editing: false
+        }
     },
-    application: {
-        title: '',
-        today: '',
-        thisweek: '',
-        thought: '',
-        wordcount: 0,
-        time: 0,
-        slide: false,
-        editing: false
-    },
-    prayer: {
-        text: '',
-        wordcount: 0,
-        time: 0,
-        slide: false,
-        editing: false
+    after: {
+        application: {
+            title: '',
+            today: '',
+            thisweek: '',
+            thought: '',
+            wordcount: 0,
+            time: 0,
+            slide: false,
+            editing: false
+        },
+        prayer: {
+            text: '',
+            wordcount: 0,
+            time: 0,
+            slide: false,
+            editing: false
+        }
     }
 }
 
 var initOSermon = {
-    hook: {
-        title: '',
-        text: '',
-        wordcount: 0,
-        time: 0,
-        slide: false,
-        editing: false
+    before: {
+        hook: {
+            title: '',
+            text: '',
+            wordcount: 0,
+            time: 0,
+            slide: false,
+            editing: false
+        }
     },
-    application: {
-        title: '',
-        today: '',
-        thisweek: '',
-        thought: '',
-        wordcount: 0,
-        time: 0,
-        slide: false,
-        editing: false
-    },
-    prayer: {
-        text: '',
-        wordcount: 0,
-        time: 0,
-        slide: false,
-        editing: false
+    after: {
+        application: {
+            title: '',
+            today: '',
+            thisweek: '',
+            thought: '',
+            wordcount: 0,
+            time: 0,
+            slide: false,
+            editing: false
+        },
+        prayer: {
+            text: '',
+            wordcount: 0,
+            time: 0,
+            slide: false,
+            editing: false
+        }
     }
 }
 
@@ -200,6 +207,9 @@ var templates = {
     }
 }
 
+// Poll Types
+var pollQuestionTypes = ['short', 'selectOne', 'selectMultiple', 'slider', 'yesNo']
+
 module.exports = {
     realTypes: realTypes,
     otherTypes: otherTypes,
@@ -209,5 +219,6 @@ module.exports = {
     mediaRefSchema: mediaRefSchema,
     researchRefSchema: researchRefSchema,
     initOLesson: initOLesson,
-    initOSermon: initOSermon
+    initOSermon: initOSermon,
+    pollQuestionTypes: pollQuestionTypes
 }

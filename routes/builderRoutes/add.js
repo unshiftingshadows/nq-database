@@ -246,6 +246,9 @@ module.exports = function (req, res) {
                     if (!item) {
                         res.status(400).send('new media not added...')
                     } else {
+                        firebase.db.ref('users/' + decodedToken.uid + '/stats/num' + type).transaction(function (currentVal) {
+                            return (currentVal || 0) + 1
+                        })
                         res.send(item)
                     }
                 })
@@ -263,9 +266,12 @@ module.exports = function (req, res) {
                             if (err) {
                                 console.log(err)
                             } else {
-                                firebase.db.ref('o/lessons/' + updated._id + '/structure/hook').update({show: data.prefs.hook})
-                                firebase.db.ref('o/lessons/' + updated._id + '/structure/application').update({show: data.prefs.application})
-                                firebase.db.ref('o/lessons/' + updated._id + '/structure/prayer').update({show: data.prefs.prayer})
+                                firebase.db.ref('o/lessons/' + updated._id + '/structure/before/hook').update({show: data.prefs.hook})
+                                firebase.db.ref('o/lessons/' + updated._id + '/structure/after/application').update({show: data.prefs.application})
+                                firebase.db.ref('o/lessons/' + updated._id + '/structure/after/prayer').update({show: data.prefs.prayer})
+                                firebase.db.ref('users/' + decodedToken.uid + '/stats/num' + type.slice(1)).transaction(function (currentVal) {
+                                    return (currentVal || 0) + 1
+                                })
                                 // Add template content to modules section
                                 if (data.template !== 'blank') {
                                     firebase.db.ref('o/lessons/' + updated._id + '/modules/').set()
@@ -280,13 +286,19 @@ module.exports = function (req, res) {
                             if (err) {
                                 console.log(err)
                             } else {
-                                firebase.db.ref('o/sermons/' + updated._id + '/structure/hook').update({show: data.prefs.hook})
-                                firebase.db.ref('o/sermons/' + updated._id + '/structure/application').update({show: data.prefs.application})
-                                firebase.db.ref('o/sermons/' + updated._id + '/structure/prayer').update({show: data.prefs.prayer})
+                                firebase.db.ref('o/sermons/' + updated._id + '/structure/before/hook').update({show: data.prefs.hook})
+                                firebase.db.ref('o/sermons/' + updated._id + '/structure/after/application').update({show: data.prefs.application})
+                                firebase.db.ref('o/sermons/' + updated._id + '/structure/after/prayer').update({show: data.prefs.prayer})
+                                firebase.db.ref('users/' + decodedToken.uid + '/stats/num' + type.slice(1)).transaction(function (currentVal) {
+                                    return (currentVal || 0) + 1
+                                })
                                 res.send(updated)
                             }
                         });
                     } else if (type === 'oscratch') {
+                        firebase.db.ref('users/' + decodedToken.uid + '/stats/num' + type.slice(1)).transaction(function (currentVal) {
+                            return (currentVal || 0) + 1
+                        })
                         res.send(updated)
                     } else if (type === 'rseries') {
                         // Add database reference to Firebase

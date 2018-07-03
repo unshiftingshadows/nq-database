@@ -1,6 +1,22 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.44 - 2018-07-03
+**Update npm packages**
+
+### Added
+- Poll and PollResponse models for running polls on the non-REAL builder site
+- poll route for adding polls and responses
+- poll route for retrieving polls and responses
+
+### Changed
+- list now works for archived items
+- view now works for archives
+- archiving items now moves all structure and module data into database for use later
+
+### Fixed
+- ocontent is now added with proper structure
+
 ## 0.0.43 - 2018-07-02
 ### Added
 - archive route and model for builder-other

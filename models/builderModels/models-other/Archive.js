@@ -12,6 +12,46 @@ var archiveSchema = new Schema({
         type: [String],
         default: []
     }, // refs that the lesson is primarily focused on, not all refs used in the lesson
+    content: {
+        structure: {
+            before: {
+                hook: {
+                    editing: Boolean,
+                    show: Boolean,
+                    time: Number,
+                    wordcount: Number
+                }
+            },
+            after: {
+                application: {
+                    editing: Boolean,
+                    show: Boolean,
+                    thisweek: String,
+                    thought: String,
+                    time: Number,
+                    title: String,
+                    today: String,
+                    wordcount: Number
+                },
+                prayer: {
+                    editing: Boolean,
+                    show: Boolean,
+                    text: String,
+                    time: Number,
+                    wordcount: Number
+                }
+            }
+        },
+        modules: [Schema.Types.Mixed],
+        sectionModules: [Schema.Types.Mixed],
+        sections: [{
+            key: String,
+            editing: Boolean,
+            order: Number,
+            static: Boolean,
+            title: String
+        }]
+    },
     createdBy: {
         type: String,
         required: true

@@ -8,6 +8,7 @@ const SeriesOther = require('../../models/builderModels/models-other/Series.js')
 const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
 const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
 const ScratchOther = require('../../models/builderModels/models-other/Scratch.js')
+const ArchiveOther = require('../../models/builderModels/models-other/Archive.js')
 
 const Book = require('../../models/nqModels/Book.js')
 const Movie = require('../../models/nqModels/Movie.js')
@@ -33,7 +34,8 @@ var otherContent = {
     'oseries': SeriesOther,
     'olesson': LessonOther,
     'osermon': SermonOther,
-    'oscratch': ScratchOther
+    'oscratch': ScratchOther,
+    'oarchive': ArchiveOther
 }
 
 var mediaTypes = {
