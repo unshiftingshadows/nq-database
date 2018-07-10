@@ -55,7 +55,7 @@ app.get('/builder', function (req, res) {
 })
 
 // Builder Routes
-app.get('/builder/user', builderuser)
+app.post('/builder/user', builderuser)
 app.post('/builder/list', builderlist)
 app.post('/builder/add', builderadd)
 app.post('/builder/archive', builderarchive)

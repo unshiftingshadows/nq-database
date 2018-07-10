@@ -58,6 +58,18 @@ function getCurrentPolls (uid, callback) {
     })
 }
 
+function getAllPolls (callback) {
+    Poll.find().exec((err, polls) => {
+        if (err) {
+            console.log('get all poll failed', err)
+            callback(false)
+        } else {
+            console.log('Got all polls')
+            callback(polls)
+        }
+    })
+}
+
 function getResponses (id, callback) {
     PollResponse.find({ pollid: id }).exec((err, pollResponses) => {
         if (err) {
@@ -111,6 +123,14 @@ module.exports = function (req, res) {
                         res.send(result)
                     } else {
                         res.status(400).send('Get current polls failed')
+                    }
+                })
+            } else if (action === 'getAllPolls') {
+                getAllPolls((result) => {
+                    if (result) {
+                        res.send(result)
+                    } else {
+                        res.status(400).send('Get all polls failed')
                     }
                 })
             } else if (action === 'getResponses') {

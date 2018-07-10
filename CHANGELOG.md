@@ -1,6 +1,15 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.45 - 2018-07-10
+### Added
+- admin ability to list all users
+- admin ability to list all polls
+
+### Changed
+- Poll schema, specifically how criteria works
+- user route is now a post rather than a get
+
 ## 0.0.44 - 2018-07-03
 **Update npm packages**
 

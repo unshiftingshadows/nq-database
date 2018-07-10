@@ -210,6 +210,8 @@ var templates = {
 // Poll Types
 var pollQuestionTypes = ['short', 'selectOne', 'selectMultiple', 'slider', 'yesNo']
 
+var pollShowCriteria = ['page', 'login', 'numsermon', 'numlesson', 'numscratch', 'numquote', 'numimage', 'numvideo', 'numlyric', 'numillustration', 'usergroup', 'createdate', 'lastlogin']
+
 module.exports = {
     realTypes: realTypes,
     otherTypes: otherTypes,
@@ -220,5 +222,6 @@ module.exports = {
     researchRefSchema: researchRefSchema,
     initOLesson: initOLesson,
     initOSermon: initOSermon,
-    pollQuestionTypes: pollQuestionTypes
+    pollQuestionTypes: pollQuestionTypes,
+    pollShowCriteria: pollShowCriteria
 }

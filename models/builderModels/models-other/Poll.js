@@ -23,14 +23,20 @@ var pollSchema = new Schema({
         options: [],
         required: Boolean
     }],
-    showCriteria: {
-        onPage: String,
-        onLogin: Boolean,
-        onValue: {
-            valType: String,
-            value: Number,
-            comparator: String
+    showCriteria: [{
+        type: {
+            type: String,
+            enum: config.pollShowCriteria
+        },
+        value: Schema.Types.Mixed,
+        comparator: {
+            type: String,
+            enum: ['gt', 'gte', 'lt', 'lte', 'eq']
         }
+    }],
+    cumCriteria: {
+        type: Boolean,
+        default: true // meaning that all criteria must be true -- false would mean that any one criteria would satisfy the criteria
     },
     startDate: {
         type: Date,
