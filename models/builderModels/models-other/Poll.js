@@ -4,6 +4,10 @@ const Schema = require('mongoose').Schema
 const config = require('../../../real_config.js')
 
 var pollSchema = new Schema({
+    active: {
+        type: Boolean,
+        default: false
+    },
     excludedUsers: {
         type: [String],
         default: []
@@ -23,32 +27,42 @@ var pollSchema = new Schema({
         options: [],
         required: Boolean
     }],
-    showCriteria: [{
-        type: {
+    showPage: {
+        type: [{
             type: String,
-            enum: config.pollShowCriteria
-        },
-        value: Schema.Types.Mixed,
-        comparator: {
-            type: String,
-            enum: ['gt', 'gte', 'lt', 'lte', 'eq']
-        }
-    }],
+            enum: config.pollPageTypes
+        }],
+        default: ['all']
+    },
+    showCriteria: {
+        type: [{
+            type: {
+                type: String,
+                enum: config.pollShowCriteria
+            },
+            value: Schema.Types.Mixed,
+            comparator: {
+                type: String,
+                enum: ['gt', 'gte', 'lt', 'lte', 'eq']
+            }
+        }],
+        default: []
+    },
     cumCriteria: {
         type: Boolean,
         default: true // meaning that all criteria must be true -- false would mean that any one criteria would satisfy the criteria
     },
     startDate: {
         type: Date,
-        required: true
+        default: new Date()
     },
     endDate: {
         type: Date,
-        required: true
+        default: new Date()
     },
     title: {
         type: String,
-        required: true
+        default: 'New Poll'
     },
     users: {
         type: [String],

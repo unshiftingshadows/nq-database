@@ -9,7 +9,9 @@ const PollResponse = require('../../models/builderModels/models-other/PollRespon
 
 function addPoll (data, callback) {
     var obj = new Poll(data)
-    obj.save().then((err, newPoll) => {
+    obj.save((err, newPoll) => {
+        console.log('err', err)
+        console.log('newPoll', newPoll)
         if (err) {
             console.log('add poll failed', err)
             callback(false)
@@ -20,10 +22,24 @@ function addPoll (data, callback) {
     })
 }
 
+function updatePoll (data, callback) {
+    Poll.findByIdAndUpdate(data._id, data, {new: true}, (err, newPoll) => {
+        console.log('err', err)
+        console.log('newPoll', newPoll)
+        if (err) {
+            console.log('update poll failed', err)
+            callback(false)
+        } else {
+            console.log('Poll updated!')
+            callback(newPoll)
+        }
+    })
+}
+
 function addResponse (data, uid, callback) {
     var obj = new PollResponse(data)
     obj.uid = uid
-    obj.save().then((err, newResponse) => {
+    obj.save((err, newResponse) => {
         if (err) {
             console.log('add response failed', err)
             callback(false)
@@ -115,6 +131,14 @@ module.exports = function (req, res) {
                         res.send(result)
                     } else {
                         res.status(400).send('Get poll failed')
+                    }
+                })
+            } else if (action === 'updatePoll') {
+                updatePoll(data, (result) => {
+                    if (result) {
+                        res.send(result)
+                    } else {
+                        res.status(400).send('Update poll failed')
                     }
                 })
             } else if (action === 'getCurrentPolls') {

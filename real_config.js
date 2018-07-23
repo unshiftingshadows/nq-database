@@ -210,7 +210,9 @@ var templates = {
 // Poll Types
 var pollQuestionTypes = ['short', 'selectOne', 'selectMultiple', 'slider', 'yesNo']
 
-var pollShowCriteria = ['page', 'login', 'numsermon', 'numlesson', 'numscratch', 'numquote', 'numimage', 'numvideo', 'numlyric', 'numillustration', 'usergroup', 'createdate', 'lastlogin']
+var pollShowCriteria = ['numsermon', 'numlesson', 'numscratch', 'numquote', 'numimage', 'numvideo', 'numlyric', 'numillustration', 'usergroup', 'createdate', 'lastlogin']
+
+var pollPageTypes = ['all', 'dashboard', 'sermonList', 'lessonList', 'scratchList', 'settings', 'quoteList', 'imageList', 'illustrationList', 'lyricList', 'videoList']
 
 module.exports = {
     realTypes: realTypes,
@@ -223,5 +225,6 @@ module.exports = {
     initOLesson: initOLesson,
     initOSermon: initOSermon,
     pollQuestionTypes: pollQuestionTypes,
-    pollShowCriteria: pollShowCriteria
+    pollShowCriteria: pollShowCriteria,
+    pollPageTypes: pollPageTypes
 }

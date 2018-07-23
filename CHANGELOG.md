@@ -1,6 +1,19 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.46 - 2018-07-23
+### Added
+- update function for polls
+- active property for polls
+- page list in real_config
+
+### Changed
+- poll schema to match new criteria system - separates pages and other criteria
+- made different values defaults instead of required
+
+### Fixed
+- poll functions were set up incorrectly, fixed to properly report errors
+
 ## 0.0.45 - 2018-07-10
 ### Added
 - admin ability to list all users
