@@ -8,6 +8,10 @@ var pollSchema = new Schema({
         type: Boolean,
         default: false
     },
+    archive: {
+        type: Boolean,
+        default: false
+    },
     excludedUsers: {
         type: [String],
         default: []

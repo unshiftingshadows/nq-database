@@ -208,7 +208,7 @@ var templates = {
 }
 
 // Poll Types
-var pollQuestionTypes = ['short', 'selectOne', 'selectMultiple', 'slider', 'yesNo']
+var pollQuestionTypes = ['short', 'selectOne', 'selectMulti', 'slider', 'yesNo']
 
 var pollShowCriteria = ['numsermon', 'numlesson', 'numscratch', 'numquote', 'numimage', 'numvideo', 'numlyric', 'numillustration', 'usergroup', 'createdate', 'lastlogin']
 

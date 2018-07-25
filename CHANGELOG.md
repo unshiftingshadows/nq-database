@@ -1,6 +1,13 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.47 - 2018-07-25
+### Added
+- archive property for polls
+
+### Changed
+- pollQuestionType 'selecteMultiple' to 'selectMulti'
+
 ## 0.0.46 - 2018-07-23
 ### Added
 - update function for polls
