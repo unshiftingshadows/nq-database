@@ -1,17 +1,17 @@
-const admin = require('firebase-admin')
+// const admin = require('firebase-admin')
 
-const serviceAccount = require('./nq_credentials.json')
+// const serviceAccount = require('./nq_credentials.json')
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://notes-and-quotes-977a3.firebaseio.com'
-})
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount),
+//     databaseURL: 'https://notes-and-quotes-977a3.firebaseio.com'
+// })
 
-var store = admin.firestore()
+// var store = admin.firestore()
 
 const mongoose = require('mongoose')
 
-const dbOptions = require('./db_cred.js')
+const dbOptions = require('./db_cred.js').nq
 
 mongoose.connect('mongodb://localhost:27017/notesandquotes', dbOptions)
 var db = mongoose.connection
@@ -21,9 +21,23 @@ db.once('open', function () {
 })
 
 // Add media models
-const Book = require('./models/Book.js')
-const Quote = require('./models/Quote.js')
+const Video = require('./models/nqModels/Video.js')
+// const Quote = require('./models/Quote.js')
 // const Author = require('./models/Author.js')
+const UserData = require('./models/nqModels/UserData.js')
+
+UserData.find({ type: 'video' }).exec(function (err, items) {
+    console.log('err: ', err)
+    // console.log('items: ', items)
+    items.forEach(item => {
+        var tempData = {}
+        tempData[item.uid] = item._id
+        Video.findOneAndUpdate({ _id: item.resource }, { userData: tempData }, function (err, updatedResource) {
+            console.log('err: ', err)
+            console.log('updatedResource: ', updatedResource)
+        })
+    })
+})
 
 // Books have been migrated!!
 // Quotes have been migrated!!

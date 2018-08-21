@@ -1,6 +1,15 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.48 - 2018-08-21
+### Added
+- properties in list route for future filtering and sorting
+- ability to filter by status (new) in list route
+
+### Changed
+- limited returned fields in list route
+- all media types now have a userData field which can be populated with the UserData type
+
 ## 0.0.47 - 2018-07-25
 ### Added
 - archive property for polls

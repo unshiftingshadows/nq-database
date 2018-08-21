@@ -52,6 +52,10 @@ var articleSchema = new Schema({
         type: String,
         required: true
     },
+    userData: {
+        type: Map,
+        of: String
+    },
     users: {
         type: [String],
         default: []

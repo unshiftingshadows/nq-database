@@ -71,6 +71,7 @@ module.exports = function (req, res) {
                     console.log('tags', data.tags)
                     UserData.findOneAndUpdate({ uid: decodedToken.uid, resource: id }, { notes: req.body.data.notes, tags: req.body.data.tags, rating: req.body.data.rating, status: req.body.data.status }, function (err, updatedData) {
                         if (err || updatedData === null) {
+                            console.error('UserData not already present')
                             // var data = {
                             //     notes: data.notes || '',
                             //     tags: data.tags || [],

@@ -41,6 +41,10 @@ var discourseSchema = new Schema({
         type: String,
         default: ''
     },
+    userData: {
+        type: Map,
+        of: String
+    },
     users: {
         type: [String],
         default: []

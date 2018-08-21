@@ -47,6 +47,7 @@ module.exports = function (req, res) {
                             resource: item
                         })
                     } else {
+                        //UserData.findOne({ _id: item[decodedToken.uid] })
                         UserData.findOne({ uid: decodedToken.uid, resource: ObjectId(id) }).exec(function (err, data) {
                             console.log('data', data)
                             if (data !== null) {
@@ -59,8 +60,31 @@ module.exports = function (req, res) {
                                     notes: '',
                                     tags: [],
                                     rating: 0,
-                                    status: 'new'
+                                    status: 'new',
+                                    type: type
                                 }
+                                var userData = new UserData(data)
+                                userData.save(function (err, updatedData) {
+                                    if (err === null)  {
+                                        console.log('userData updated!', updatedData)
+                                        // res.status(200).send('Updated UserData!')
+                                        if (item.userData === undefined) {
+                                            console.log('not object')
+                                            item.userData = {}
+                                        }
+                                        item.userData[decodedToken.uid] = updatedData._id
+                                        item.save(function (err, updatedItem) {
+                                            if (err === null) {
+                                                console.log('item updated!', updatedItem)
+                                            } else {
+                                                console.log('problem updating item with userData id', err)
+                                            }
+                                        })
+                                    } else {
+                                        console.log('problem updating user data', err)
+                                        // res.status(400).send('did not update user data')
+                                    }
+                                })
                             }
                             console.log(type, item)
                             res.send({
