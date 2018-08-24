@@ -25,6 +25,10 @@ var documentSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    description: {
+        type: String,
+        default: ''
+    },
     fileType: {
         type: String,
         required: true

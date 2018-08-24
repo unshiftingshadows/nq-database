@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.49 - 2018-08-23
+### Added
+- description field to Document schema
+
 ## 0.0.48 - 2018-08-21
 ### Added
 - properties in list route for future filtering and sorting
