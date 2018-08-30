@@ -19,32 +19,23 @@ const Illustration = require('../../models/nqModels/Illustration.js')
 const Topic = require('../../models/nqModels/Topic.js')
 const Selection = require('../../models/nqModels/Selection.js')
 
-// const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
-// const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
+const SermonOther = require('../../models/messageModels/Sermon.js')
+const LessonOther = require('../../models/messageModels/Lesson.js')
 
-const SeriesReal = require('../../models/builderModels/Series.js')
-const LessonReal = require('../../models/builderModels/Lesson.js')
-const DevoReal = require('../../models/builderModels/Devo.js')
+// const SeriesReal = require('../../models/builderModels/models-real/Series.js')
+// const LessonReal = require('../../models/builderModels/models-real/Lesson.js')
+// const DevoReal = require('../../models/builderModels/Devo.js')
 
 const mediaType = {
-    // 'osermon': SermonOther,
-    // 'olesson': LessonOther,
-    'series': SeriesReal,
-    'lesson': LessonReal,
-    'devo': DevoReal
-}
-
-function newType (type, data) {
-    switch (type) {
-        case 'lesson':
-            return new LessonReal({lessonid: data})
-        default:
-            return false
-    }
+    'sermon': SermonOther,
+    'lesson': LessonOther
+    // 'rseries': SeriesReal,
+    // 'rlesson': LessonReal,
+    // 'rdevo': DevoReal
 }
 
 module.exports = function (req, res) {
-    console.log('--builder resources run--')
+    console.log('--message resources run--')
     console.log('type', req.body.type)
     console.log('id', req.body.id)
     console.log('action', req.body.action)
@@ -63,15 +54,19 @@ module.exports = function (req, res) {
             if (Object.keys(mediaType).includes(type)) {
                 var query = {}
                     switch (type) {
-                        case 'series':
-                            query.seriesid = id
-                            break
+                        case 'sermon':
                         case 'lesson':
-                            query.lessonid = id
+                            query._id = id
                             break
-                        case 'devo':
-                            query.devoid = id
-                            break
+                        // case 'rseries':
+                        //     query.seriesid = id
+                        //     break
+                        // case 'rlesson':
+                        //     query.lessonid = id
+                        //     break
+                        // case 'rdevo':
+                        //     query.devoid = id
+                        //     break
                     }
                 if (action === 'list') {
                     mediaType[type].findOne(query).populate({ path: 'research.media', model: Topic, populate: { path: 'resources.media', populate: { path: 'mediaid', model: 'mediaType', select: 'title author thumbURL' } } }).populate({ path: 'selection', model: Selection, populate: { path: 'resources.media', populate: { path: 'mediaid', select: 'title author thumbURL' } } }).exec(function (err, items) {
@@ -84,13 +79,11 @@ module.exports = function (req, res) {
                             console.log('no resource container -- making a new one')
                             var coll = new Selection({})
                             coll.save(function (err, newSelection) {
-                                var obj = newType(type, id)
-                                obj.selection = newSelection._id
-                                obj.save(function (err, newLesson) {
+                                mediaType[type].updateOne({ _id: id }, { selection: newSelection._id }, function (err, updated) {
                                     if (err) {
-                                        console.log('content not added for new resources', err)
+                                        console.log('content not updated for new resources', err)
                                     } else {
-                                        res.send(newLesson)
+                                        res.send(updated)
                                     }
                                 })
                             })

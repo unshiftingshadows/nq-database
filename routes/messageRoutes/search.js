@@ -3,9 +3,9 @@ const firebase = require('../../firebase.js').real
 const Fuse = require('fuse.js')
 
 // Import content types
-const SeriesReal = require('../../models/builderModels/Series.js')
-// const SeriesOther = require('../../models/builderModels/models-other/Series.js')
-// const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
+// const SeriesReal = require('../../models/builderModels/models-real/Series.js')
+const SeriesOther = require('../../models/messageModels/Series.js')
+const LessonOther = require('../../models/messageModels/Lesson.js')
 
 const Topic = require('../../models/nqModels/Topic.js')
 
@@ -41,31 +41,31 @@ const nqMedia = {
 }
 
 // Import other media types
-// const OQuote = require('../../models/builderModels/models-other/Quote.js')
-// const OImage = require('../../models/builderModels/models-other/Image.js')
-// const OIllustration = require('../../models/builderModels/models-other/Illustration.js')
-// const OLyric = require('../../models/builderModels/models-other/Lyric.js')
-// const OVideo = require('../../models/builderModels/models-other/Video.js')
+const OQuote = require('../../models/messageModels/Quote.js')
+const OImage = require('../../models/messageModels/Image.js')
+const OIllustration = require('../../models/messageModels/Illustration.js')
+const OLyric = require('../../models/messageModels/Lyric.js')
+const OVideo = require('../../models/messageModels/Video.js')
 
-// const otherMedia = {
-//     'quote': OQuote,
-//     'image': OImage,
-//     'illustration': OIllustration,
-//     'lyric': OLyric,
-//     'video': OVideo
-// }
-
-var realContent = {
-    'rseries': SeriesReal
+const otherMedia = {
+    'quote': OQuote,
+    'image': OImage,
+    'illustration': OIllustration,
+    'lyric': OLyric,
+    'video': OVideo
 }
 
-// var otherContent = {
-//     'oseries': SeriesOther,
-//     'olessons': LessonOther
+// var realContent = {
+//     'rseries': SeriesReal
 // }
 
+var otherContent = {
+    'series': SeriesOther,
+    'lessons': LessonOther
+}
+
 module.exports = function (req, res) {
-    console.log('--builder search run--')
+    console.log('--message search run--')
     console.log('type', req.body.type)
     console.log('search', req.body.terms)
     var token = req.body.token
@@ -76,11 +76,32 @@ module.exports = function (req, res) {
             var terms = req.body.terms
             var options = req.body.options
             console.log('uid', decodedToken.uid)
-            if (Object.keys(realContent).includes(type)) {
-                realContent[type].find({}).where('user', decodedToken.uid).exec(function (err, items) {
+            if (Object.keys(otherContent).includes(type)) {
+                var query = otherContent[type].find({})
+                if (!options.data) {
+                    query = query.select('_id title')
+                }
+                for (term in terms) {
+                    console.log(term)
+                    query = query.$where('this.' + term + '.search(\"' + terms[term] + '\") !== -1')
+                }
+                query.exec(function (err, items) {
                     if (err) console.log(err)
-                    console.log(items)
-                    res.send(items)
+                    console.log('items', items)
+                    if (options.autocomplete) {
+                        var array = []
+                        items.forEach((item) => {
+                            array.push({
+                                label: item.title,
+                                value: item._id
+                            })
+                        })
+                        console.log(array)
+                        res.send(array)
+                    } else {
+                        console.log(items)
+                        res.send(items)
+                    }
                 })
             } else if (type === 'topic') {
                 console.log('topic search')
@@ -101,6 +122,48 @@ module.exports = function (req, res) {
                     var result = search.search(terms)
                     console.log(items)
                     res.send(items)
+                })
+            } else if (type === 'omedia') {
+                console.log('other media search')
+                Promise.all([
+                    OQuote.find({ user: decodedToken.uid }).lean().exec(),
+                    OImage.find({ user: decodedToken.uid }).lean().exec(),
+                    OIllustration.find({ user: decodedToken.uid }).lean().exec(),
+                    OLyric.find({ user: decodedToken.uid }).lean().exec(),
+                    OVideo.find({ user: decodedToken.uid }).lean().exec()
+                ]).then((items) => {
+                    console.log(items)
+                    var listTypes = ['quote', 'image', 'illustration', 'lyric', 'video']
+                    var allItems = []
+                    items.forEach((listType, index) => {
+                        listType.forEach((item) => {
+                            item.type = listTypes[index]
+                            console.log('item', item, listTypes[index])
+                            allItems.push(item)
+                        })
+                    })
+                    // var allItems = items[0].concat(items[1], items[2], items[3], items[4])
+                    // Search with fuse
+                    var options = {
+                        keys: [{
+                            name: 'text',
+                            weight: 0.1
+                        }, {
+                            name: 'title',
+                            weight: 0.3
+                        }, {
+                            name: 'tags',
+                            weight: 0.6
+                        }]
+                    }
+                    var search = new Fuse(allItems, options)
+                    var result = search.search(terms)
+                    console.log(result)
+                    res.send(result)
+                })
+                .catch(function(err) {
+                    console.log('error with search media', err)
+                    res.status(400).send('Bad search')
                 })
             } else if (type === 'nqmedia') {
                 console.log('nq media search')

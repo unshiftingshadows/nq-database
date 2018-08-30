@@ -1,6 +1,14 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.50 - 2018-08-29
+BIG EDITS!
+### Changed
+- split up all builder/message functionality
+- moved user adding to a separate route '/real'
+
+All done to ensure a separation between message and builder
+
 ## 0.0.49 - 2018-08-23
 ### Added
 - description field to Document schema

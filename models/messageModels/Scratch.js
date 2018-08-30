@@ -1,7 +1,7 @@
-const mongoose = require('../../../db_connections/other-connect.js')
+const mongoose = require('../../db_connections/other-connect.js')
 const Schema = require('mongoose').Schema
 
-const config = require('../../../real_config.js')
+const config = require('../../real_config.js')
 
 var scratchSchema = new Schema({
     bibleRefs: {

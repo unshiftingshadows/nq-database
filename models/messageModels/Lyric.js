@@ -1,7 +1,8 @@
-const mongoose = require('../../../db_connections/other-connect.js')
+const mongoose = require('../../db_connections/other-connect.js')
 const Schema = require('mongoose').Schema
 
-var videoSchema = new Schema({
+var lyricSchema = new Schema({
+    author: String,
     bibleRefs: {
         type: [String],
         default: []
@@ -14,26 +15,18 @@ var videoSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    embedURL: {
+    medium: {
         type: String,
-        required: true
-    },
-    pageURL: {
-        type: String,
-        required: true
-    },
-    service: {
-        type: String,
-        enum: ['youtube', 'vimeo'],
-        required: true
+        enum: ['song', 'poem'],
+        default: 'song'
     },
     tags: {
         type: [String],
         default: []
     },
-    thumbURL: {
+    text: {
         type: String,
-        required: true
+        default: ''
     },
     title: {
         type: String,
@@ -42,11 +35,7 @@ var videoSchema = new Schema({
     user: {
         type: String,
         required: true
-    },
-    videoID: {
-        type: String,
-        required: true
     }
 })
 
-module.exports = mongoose.model('video', videoSchema)
+module.exports = mongoose.model('lyric', lyricSchema)

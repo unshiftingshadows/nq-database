@@ -1,9 +1,9 @@
-const mongoose = require('../../../db_connections/other-connect.js')
+const mongoose = require('../../db_connections/other-connect.js')
 const Schema = require('mongoose').Schema
 
 const Poll = require('./Poll.js')
 
-const config = require('../../../real_config.js')
+const config = require('../../real_config.js')
 
 var pollResponseSchema = new Schema({
     answers: {

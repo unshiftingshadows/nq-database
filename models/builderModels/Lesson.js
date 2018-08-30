@@ -1,12 +1,12 @@
-const mongoose = require('../../../db_connections/real-connect.js')
+const mongoose = require('../../db_connections/real-connect.js')
 const Schema = require('mongoose').Schema
 
-const config = require('../../../real_config.js')
-const nqConfig = require('../../../nq_config.js')
+const config = require('../../real_config.js')
+const nqConfig = require('../../nq_config.js')
 
 // Import NQ Research Types
-const Topic = require('../../nqModels/Topic.js')
-const Selection = require('../../nqModels/Selection.js')
+const Topic = require('../nqModels/Topic.js')
+const Selection = require('../nqModels/Selection.js')
 
 var lessonSchema = new Schema({
     lessonid: {

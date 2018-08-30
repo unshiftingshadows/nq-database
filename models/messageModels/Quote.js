@@ -1,8 +1,7 @@
-const mongoose = require('../../../db_connections/other-connect.js')
+const mongoose = require('../../db_connections/other-connect.js')
 const Schema = require('mongoose').Schema
 
-var lyricSchema = new Schema({
-    author: String,
+var quoteSchema = new Schema({
     bibleRefs: {
         type: [String],
         default: []
@@ -15,10 +14,20 @@ var lyricSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    medium: {
+    mediaid: {
+        author: {
+            type: String,
+            default: ''
+        },
+        title: {
+            type: String,
+            default: ''
+        }
+    },
+    mediaType: {
         type: String,
-        enum: ['song', 'poem'],
-        default: 'song'
+        enum: ['book','movie','speech'],
+        default: 'book'
     },
     tags: {
         type: [String],
@@ -28,14 +37,10 @@ var lyricSchema = new Schema({
         type: String,
         default: ''
     },
-    title: {
-        type: String,
-        default: ''
-    },
     user: {
         type: String,
         required: true
     }
 })
 
-module.exports = mongoose.model('lyric', lyricSchema)
+module.exports = mongoose.model('quote', quoteSchema)

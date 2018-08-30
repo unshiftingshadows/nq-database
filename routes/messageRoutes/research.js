@@ -5,19 +5,19 @@ const config = require('../../real_config.js')
 const firebase = require('../../firebase.js').real
 
 // Import media types
-// const SermonOther = require('../../models/builderModels/models-other/Sermon.js')
-// const LessonOther = require('../../models/builderModels/models-other/Lesson.js')
-const LessonReal = require('../../models/builderModels/Lesson.js')
-const DevoReal = require('../../models/builderModels/Devo.js')
+const SermonOther = require('../../models/messageModels/Sermon.js')
+const LessonOther = require('../../models/messageModels/Lesson.js')
+// const LessonReal = require('../../models/builderModels/models-real/Lesson.js')
+// const DevoReal = require('../../models/builderModels/Devo.js')
 
 const Topic = require('../../models/nqModels/Topic.js')
 const Selection = require('../../models/nqModels/Selection.js')
 
 const mediaType = {
-    // 'osermon': SermonOther,
-    // 'olesson': LessonOther,
-    'lesson': LessonReal,
-    'devo': DevoReal
+    'sermon': SermonOther,
+    'lesson': LessonOther
+    // 'rlesson': LessonReal,
+    // 'rdevo': DevoReal
 }
 
 const researchType = {
@@ -25,7 +25,7 @@ const researchType = {
 }
 
 module.exports = function (req, res) {
-    console.log('--builder research run--')
+    console.log('--message research run--')
     console.log('action', req.body.action)
     console.log('type', req.body.type)
     console.log('id', req.body.id)

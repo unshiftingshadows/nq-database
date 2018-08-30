@@ -1,11 +1,11 @@
 const Schema = require('mongoose').Schema
 
 const config = require('../../real_config.js')
-const firebase = require('../../firebase.js').builder
+const firebase = require('../../firebase.js').real
 const api_cred = require('../../api_cred.js')
 
-const Poll = require('../../models/builderModels/models-other/Poll.js')
-const PollResponse = require('../../models/builderModels/models-other/PollResponse.js')
+const Poll = require('../../models/messageModels/Poll.js')
+const PollResponse = require('../../models/messageModels/PollResponse.js')
 
 function addPoll (data, callback) {
     var obj = new Poll(data)
@@ -99,7 +99,7 @@ function getResponses (id, callback) {
 }
 
 module.exports = function (req, res) {
-    console.log('--builder poll run--')
+    console.log('--message poll run--')
     console.log('action', req.body.action)
     console.log('resource data', req.body.data)
     var token = req.body.token

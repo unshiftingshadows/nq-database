@@ -1,7 +1,8 @@
-const mongoose = require('../../../db_connections/other-connect.js')
+const mongoose = require('../../db_connections/other-connect.js')
 const Schema = require('mongoose').Schema
 
-var imageSchema = new Schema({
+var illustrationSchema = new Schema({
+    author: String,
     bibleRefs: {
         type: [String],
         default: []
@@ -14,24 +15,15 @@ var imageSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    imageURL: {
-        type: String,
-        default: ''
-    },
-    service: {
-        type: String,
-        enum: ['wiki', 'link', 'upload'],
-        required: true
-    },
-    storageID: {
-        type: String,
-        default: ''
-    },
     tags: {
         type: [String],
         default: []
     },
-    thumbURL: {
+    title: {
+        type: String,
+        default: ''
+    },
+    text: {
         type: String,
         default: ''
     },
@@ -41,4 +33,4 @@ var imageSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('image', imageSchema)
+module.exports = mongoose.model('illustration', illustrationSchema)

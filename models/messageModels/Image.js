@@ -1,7 +1,7 @@
-const mongoose = require('../../../db_connections/other-connect.js')
+const mongoose = require('../../db_connections/other-connect.js')
 const Schema = require('mongoose').Schema
 
-var quoteSchema = new Schema({
+var imageSchema = new Schema({
     bibleRefs: {
         type: [String],
         default: []
@@ -14,26 +14,24 @@ var quoteSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    mediaid: {
-        author: {
-            type: String,
-            default: ''
-        },
-        title: {
-            type: String,
-            default: ''
-        }
-    },
-    mediaType: {
+    imageURL: {
         type: String,
-        enum: ['book','movie','speech'],
-        default: 'book'
+        default: ''
+    },
+    service: {
+        type: String,
+        enum: ['wiki', 'link', 'upload'],
+        required: true
+    },
+    storageID: {
+        type: String,
+        default: ''
     },
     tags: {
         type: [String],
         default: []
     },
-    text: {
+    thumbURL: {
         type: String,
         default: ''
     },
@@ -43,4 +41,4 @@ var quoteSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('quote', quoteSchema)
+module.exports = mongoose.model('image', imageSchema)

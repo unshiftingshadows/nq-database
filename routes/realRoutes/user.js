@@ -1,5 +1,5 @@
 const config = require('../../real_config.js')
-const firebase = require('../../firebase.js').builder
+const firebase = require('../../firebase.js').real
 const api_cred = require('../../api_cred.js')
 const mailgun = require('mailgun-js')({apiKey: api_cred.mailgun, domain: 'mail.real-curriculum.com'})
 const request = require('superagent')
@@ -63,7 +63,7 @@ module.exports = function (req, res) {
                             console.error(err)
                         }
                     })
-                firebase.db.ref('/users/' + newUser.uid).set({
+                firebase.store.collection('users').doc(newUser.uid).set({
                     email: req.body.email,
                     name: {
                         first: req.body.first,

@@ -60,7 +60,7 @@ module.exports = function (req, res) {
                 } else {
                     query = query
                         .$where('this.users.includes(\"' + decodedToken.uid + '\")')
-                        .select('author dateAdded dateModified thumbURL title type userData users')
+                        .select('author dateAdded dateModified source thumbURL title type userData users')
                 }
                 // Execute the query
                 query.exec(function (err, allItems) {
