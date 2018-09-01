@@ -19,7 +19,7 @@ const Topic = require('../../models/nqModels/Topic.js')
 // const Video = require('../../models/builderModels/models-other/Video.js')
 
 const realContent = {
-    'rseries': SeriesReal
+    'series': SeriesReal
 }
 
 module.exports = function (req, res) {

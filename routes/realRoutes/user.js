@@ -63,59 +63,96 @@ module.exports = function (req, res) {
                             console.error(err)
                         }
                     })
-                firebase.store.collection('users').doc(newUser.uid).set({
+                firebase.store.collection('user').doc(newUser.uid).set({
                     email: req.body.email,
                     name: {
                         first: req.body.first,
+                        middle: '',
                         last: req.body.last
                     },
+                    churchid: false,
+                    churchRoles: {},
                     newUser: true,
                     nqUser: false,
                     prefs: {
+                        theme: 'light',
                         bibleTranslation: 'nas',
-                        contentType: {
-                            lesson: true,
-                            scratch: true,
-                            sermon: true
+                        message: {
+                            contentType: {
+                                lesson: true,
+                                scratch: true,
+                                sermon: true
+                            },
+                            mediaType: {
+                                illustration: true,
+                                image: true,
+                                lyric: false,
+                                quote: true,
+                                video: true
+                            },
+                            osermonStructure: {
+                                hook: true,
+                                application: true,
+                                prayer: true
+                            },
+                            olessonStructure: {
+                                hook: true,
+                                application: true,
+                                prayer: true
+                            },
+                            structureNames: {
+                                application: "Application",
+                                hook: "Hook",
+                                prayer: "Prayer"
+                            },
+                            speakingSpeed: 120
                         },
-                        mediaType: {
-                            illustration: true,
-                            image: true,
-                            lyric: false,
-                            quote: true,
-                            video: true
-                        },
-                        osermonStructure: {
-                            hook: true,
-                            application: true,
-                            prayer: true
-                        },
-                        olessonStructure: {
-                            hook: true,
-                            application: true,
-                            prayer: true
-                        },
-                        structureNames: {
-                            application: "Application",
-                            hook: "Hook",
-                            prayer: "Prayer"
-                        },
-                        speakingSpeed: 120
+                        prayer: {},
+                        curriculum: {},
+                        database: {},
+                        presenter: {},
+                        service: {}
                     },
                     stats: {
-                        lastPagePath: '',
-                        numsermon: 0,
-                        numlesson: 0,
-                        numscratch: 0,
-                        numarchive: 0,
-                        numquote: 0,
-                        numimage: 0,
-                        numvideo: 0,
-                        numlyric: 0,
-                        numillustration: 0
+                        lastPage: {
+                            host: '',
+                            path: ''
+                        },
+                        message: {
+                            numsermon: 0,
+                            numlesson: 0,
+                            numscratch: 0,
+                            numarchive: 0,
+                            numquote: 0,
+                            numimage: 0,
+                            numvideo: 0,
+                            numlyric: 0,
+                            numillustration: 0
+                        },
+                        prayer: {},
+                        curriculum: {},
+                        database: {},
+                        presenter: {},
+                        service: {}
+                    },
+                    app: {
+                        message: false,
+                        prayer: false,
+                        curriculum: false,
+                        database: false,
+                        presenter: false,
+                        service: false
+                    },
+                    supportRestore: {
+                        message: '',
+                        prayer: '',
+                        curriculum: '',
+                        database: '',
+                        presenter: '',
+                        service: ''
                     },
                     realUser: false,
-                    theme: 'light'
+                    realRoles: {}
                 }).then(function() {
                     res.send('New user created!')
                 }).catch(function(error) {

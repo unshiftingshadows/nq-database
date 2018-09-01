@@ -1,43 +1,80 @@
-// const admin = require('firebase-admin')
+const admin = require('firebase-admin')
 
-// const serviceAccount = require('./nq_credentials.json')
+const builderAccount = require('./builder_credentials.json')
+const realAccount = require('./real_credentials.json')
 
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: 'https://notes-and-quotes-977a3.firebaseio.com'
+const builderApp = admin.initializeApp({
+    credential: admin.credential.cert(builderAccount),
+    databaseURL: 'https://real-curriculum-builder.firebaseio.com'
+}, 'builderApp')
+
+const realApp = admin.initializeApp({
+    credential: admin.credential.cert(realAccount),
+    databaseURL: 'https://real-45953.firebaseio.com'
+}, 'realApp')
+
+var db = builderApp.database()
+
+var store = realApp.firestore()
+
+db.ref('/o/lessons').once('value', (snap) => {
+    for (var sermon in snap.val()) {
+        store.collection('lesson').doc(sermon).set({}).then(ref => {
+            console.log('saved:', sermon)
+            for (var mod in snap.val()[sermon]['sections']) {
+                var batch = store.batch()
+                batch.set(store.collection('lesson').doc(sermon).collection(part).doc(mod), snap.val()[sermon][part][mod])
+                batch.commit().then(() => {
+                    console.log('batch committed')
+                })
+            }
+            for (var mod in snap.val()[sermon]['sectionModules']) {
+                var batch = store.batch()
+                batch.set(store.collection('lesson').doc(sermon).collection(part).doc(mod), snap.val()[sermon][part][mod])
+                batch.commit().then(() => {
+                    console.log('batch committed')
+                })
+            }
+            for (var mod in snap.val()[sermon]['structure']) {
+                var batch = store.batch()
+                batch.set(store.collection('lesson').doc(sermon).collection(part).doc(mod), snap.val()[sermon][part][mod])
+                batch.commit().then(() => {
+                    console.log('batch committed')
+                })
+            }
+        })
+    }
+})
+
+// const mongoose = require('mongoose')
+
+// const dbOptions = require('./db_cred.js').nq
+
+// mongoose.connect('mongodb://localhost:27017/notesandquotes', dbOptions)
+// var db = mongoose.connection
+// db.on('error', console.error.bind(console, 'connection error:'))
+// db.once('open', function () {
+//     console.log('we are connected!!!')
 // })
 
-// var store = admin.firestore()
+// // Add media models
+// const Video = require('./models/nqModels/Video.js')
+// // const Quote = require('./models/Quote.js')
+// // const Author = require('./models/Author.js')
+// const UserData = require('./models/nqModels/UserData.js')
 
-const mongoose = require('mongoose')
-
-const dbOptions = require('./db_cred.js').nq
-
-mongoose.connect('mongodb://localhost:27017/notesandquotes', dbOptions)
-var db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', function () {
-    console.log('we are connected!!!')
-})
-
-// Add media models
-const Video = require('./models/nqModels/Video.js')
-// const Quote = require('./models/Quote.js')
-// const Author = require('./models/Author.js')
-const UserData = require('./models/nqModels/UserData.js')
-
-UserData.find({ type: 'video' }).exec(function (err, items) {
-    console.log('err: ', err)
-    // console.log('items: ', items)
-    items.forEach(item => {
-        var tempData = {}
-        tempData[item.uid] = item._id
-        Video.findOneAndUpdate({ _id: item.resource }, { userData: tempData }, function (err, updatedResource) {
-            console.log('err: ', err)
-            console.log('updatedResource: ', updatedResource)
-        })
-    })
-})
+// UserData.find({ type: 'video' }).exec(function (err, items) {
+//     console.log('err: ', err)
+//     // console.log('items: ', items)
+//     items.forEach(item => {
+//         var tempData = {}
+//         tempData[item.uid] = item._id
+//         Video.findOneAndUpdate({ _id: item.resource }, { userData: tempData }, function (err, updatedResource) {
+//             console.log('err: ', err)
+//             console.log('updatedResource: ', updatedResource)
+//         })
+//     })
+// })
 
 // Books have been migrated!!
 // Quotes have been migrated!!

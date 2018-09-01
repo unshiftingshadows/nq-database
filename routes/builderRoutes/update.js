@@ -18,7 +18,7 @@ const SeriesReal = require('../../models/builderModels/Series.js')
 // const Video = require('../../models/builderModels/models-other/Video.js')
 
 const mediaList = {
-    'rseries': SeriesReal
+    'series': SeriesReal
     // 'oseries': SeriesOther,
     // 'olesson': LessonOther,
     // 'osermon': SermonOther,

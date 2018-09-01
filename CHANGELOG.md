@@ -1,6 +1,10 @@
 # Changelog
 All notable changes for this project will be documented in this file.
 
+## 0.0.51 - 2018-08-31
+### Changed
+- more cleanups from the split
+
 ## 0.0.50 - 2018-08-29
 BIG EDITS!
 ### Changed
