@@ -91,7 +91,8 @@ module.exports = function (req, res) {
                     firebase.db.ref('builder/series/' + updated._id).set({
                         title: data.title,
                         mainIdea: '',
-                        roles: roles
+                        roles: roles,
+                        lessonOrder: []
                     }, function(err) {
                         if (err) {
                             console.log(err)
