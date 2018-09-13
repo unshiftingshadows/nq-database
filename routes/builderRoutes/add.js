@@ -88,18 +88,19 @@ module.exports = function (req, res) {
                     // Add database reference to Firebase
                     var roles = {}
                     roles[decodedToken.uid] = 'admin'
-                    firebase.db.ref('builder/series/' + updated._id).set({
-                        title: data.title,
-                        mainIdea: '',
-                        roles: roles,
-                        lessonOrder: []
-                    }, function(err) {
-                        if (err) {
-                            console.log(err)
-                        } else {
-                            res.send(updated)
-                        }
-                    });
+                    console.log('before add store', updated._id, firebase.store)
+                    var ref = firebase.store.collection('curriculumEdit').doc(updated._id)
+                    console.log('ref', ref)
+                    // ref.set({
+                    //     title: data.title,
+                    //     mainIdea: '',
+                    //     roles: roles,
+                    //     lessonOrder: []
+                    // }).then(() => {
+                    //     res.send(updated)
+                    // }).catch((err) => {
+                    //     console.log(err)
+                    // });
                 } else {
                     res.status(400).send('Incorrect content type...')
                 }
