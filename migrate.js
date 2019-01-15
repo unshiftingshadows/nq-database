@@ -1,80 +1,119 @@
 const admin = require('firebase-admin')
+const bcv_parser = require('bible-passage-reference-parser/js/en_bcv_parser').bcv_parser
+const bcv = new bcv_parser
 
-const builderAccount = require('./builder_credentials.json')
-const realAccount = require('./real_credentials.json')
+// const builderAccount = require('./builder_credentials.json')
+// const realAccount = require('./real_credentials.json')
+const nqAccount = require('./nq_credentials.json')
 
-const builderApp = admin.initializeApp({
-    credential: admin.credential.cert(builderAccount),
-    databaseURL: 'https://real-curriculum-builder.firebaseio.com'
-}, 'builderApp')
+// const builderApp = admin.initializeApp({
+//     credential: admin.credential.cert(builderAccount),
+//     databaseURL: 'https://real-curriculum-builder.firebaseio.com'
+// }, 'builderApp')
 
-const realApp = admin.initializeApp({
-    credential: admin.credential.cert(realAccount),
-    databaseURL: 'https://real-45953.firebaseio.com'
-}, 'realApp')
+// const realApp = admin.initializeApp({
+//     credential: admin.credential.cert(realAccount),
+//     databaseURL: 'https://real-45953.firebaseio.com'
+// }, 'realApp')
 
-var db = builderApp.database()
+const nqApp = admin.initializeApp({
+    credential: admin.credential.cert(nqAccount),
+    databaseURL: 'https://notes-and-quotes-977a3.firebaseio.com'
+}, 'nqApp')
 
-var store = realApp.firestore()
+// var db = builderApp.database()
 
-db.ref('/o/lessons').once('value', (snap) => {
-    for (var sermon in snap.val()) {
-        store.collection('lesson').doc(sermon).set({}).then(ref => {
-            console.log('saved:', sermon)
-            for (var mod in snap.val()[sermon]['sections']) {
-                var batch = store.batch()
-                batch.set(store.collection('lesson').doc(sermon).collection(part).doc(mod), snap.val()[sermon][part][mod])
-                batch.commit().then(() => {
-                    console.log('batch committed')
-                })
-            }
-            for (var mod in snap.val()[sermon]['sectionModules']) {
-                var batch = store.batch()
-                batch.set(store.collection('lesson').doc(sermon).collection(part).doc(mod), snap.val()[sermon][part][mod])
-                batch.commit().then(() => {
-                    console.log('batch committed')
-                })
-            }
-            for (var mod in snap.val()[sermon]['structure']) {
-                var batch = store.batch()
-                batch.set(store.collection('lesson').doc(sermon).collection(part).doc(mod), snap.val()[sermon][part][mod])
-                batch.commit().then(() => {
-                    console.log('batch committed')
-                })
-            }
-        })
-    }
+// var store = realApp.firestore()
+
+var store = nqApp.firestore()
+
+// db.ref('/o/lessons').once('value', (snap) => {
+//     for (var sermon in snap.val()) {
+//         store.collection('lesson').doc(sermon).set({}).then(ref => {
+//             console.log('saved:', sermon)
+//             for (var mod in snap.val()[sermon]['sections']) {
+//                 var batch = store.batch()
+//                 batch.set(store.collection('lesson').doc(sermon).collection(part).doc(mod), snap.val()[sermon][part][mod])
+//                 batch.commit().then(() => {
+//                     console.log('batch committed')
+//                 })
+//             }
+//             for (var mod in snap.val()[sermon]['sectionModules']) {
+//                 var batch = store.batch()
+//                 batch.set(store.collection('lesson').doc(sermon).collection(part).doc(mod), snap.val()[sermon][part][mod])
+//                 batch.commit().then(() => {
+//                     console.log('batch committed')
+//                 })
+//             }
+//             for (var mod in snap.val()[sermon]['structure']) {
+//                 var batch = store.batch()
+//                 batch.set(store.collection('lesson').doc(sermon).collection(part).doc(mod), snap.val()[sermon][part][mod])
+//                 batch.commit().then(() => {
+//                     console.log('batch committed')
+//                 })
+//             }
+//         })
+//     }
+// })
+
+const mongoose = require('mongoose')
+
+const dbOptions = require('./db_cred.js').nq
+
+mongoose.connect('mongodb://localhost:27017/notesandquotes', dbOptions)
+var db = mongoose.connection
+db.on('error', console.error.bind(console, 'connection error:'))
+db.once('open', function () {
+    console.log('we are connected!!!')
 })
 
-// const mongoose = require('mongoose')
-
-// const dbOptions = require('./db_cred.js').nq
-
-// mongoose.connect('mongodb://localhost:27017/notesandquotes', dbOptions)
-// var db = mongoose.connection
-// db.on('error', console.error.bind(console, 'connection error:'))
-// db.once('open', function () {
-//     console.log('we are connected!!!')
-// })
-
-// // Add media models
-// const Video = require('./models/nqModels/Video.js')
-// // const Quote = require('./models/Quote.js')
-// // const Author = require('./models/Author.js')
+// Add media models
+const UserData = require('./models/nqModels/UserData.js')
+// const Quote = require('./models/Quote.js')
+// const Author = require('./models/Author.js')
 // const UserData = require('./models/nqModels/UserData.js')
 
-// UserData.find({ type: 'video' }).exec(function (err, items) {
-//     console.log('err: ', err)
-//     // console.log('items: ', items)
-//     items.forEach(item => {
-//         var tempData = {}
-//         tempData[item.uid] = item._id
-//         Video.findOneAndUpdate({ _id: item.resource }, { userData: tempData }, function (err, updatedResource) {
-//             console.log('err: ', err)
-//             console.log('updatedResource: ', updatedResource)
-//         })
-//     })
-// })
+UserData.find({}).exec(function (err, items) {
+    console.log('err: ', err)
+    // console.log('items: ', items)
+    items.forEach(item => {
+        // var tempData = {}
+        // tempData[item.uid] = item._id
+        // Video.findOneAndUpdate({ _id: item.resource }, { userData: tempData }, function (err, updatedResource) {
+        //     console.log('err: ', err)
+        //     console.log('updatedResource: ', updatedResource)
+        // })
+        var tempData = item.toObject()
+        // var id = tempData._id
+        delete tempData._id
+        delete tempData.uid
+        delete tempData.resource
+        delete tempData.type
+        // delete tempData.userData
+        delete tempData.__v
+        // tempData.mediaid = tempData.mediaid.toString()
+        // var bibleRefs = tempData.bibleRefs
+        // tempData.bibleRefs = []
+        // bibleRefs.forEach(ref => {
+        //   if (ref.type === 'single') {
+        //     tempData.bibleRefs.push(bcv.parse(ref.book + ' ' + ref.chapter + ':' + ref.verse).osis())
+        //   } else if (ref.type === 'simpleRange') {
+        //     tempData.bibleRefs.push(bcv.parse(ref.book + ' ' + ref.chapter + ':' + ref.verse + '-' + ref.verser).osis())
+        //   } else if (ref.type === 'complexRange') {
+        //     tempData.bibleRefs.push(bcv.parse(ref.book + ' ' + ref.chapter + ':' + ref.verse + '-' + ref.chapterr + ':' + ref.verser).osis())
+        //   } else {
+        //     console.error('Something went wrong with a Bible Ref...')
+        //     return
+        //   }
+        // })
+        // delete tempData.resources
+        // delete tempData.bibleRefs
+        // tempData.resources = []
+        // tempData.bibleRefs = []
+        console.log('resource', item.type, 'id', item.resource)
+        store.collection(item.type + 's').doc(item.resource).update(tempData)
+    })
+})
 
 // Books have been migrated!!
 // Quotes have been migrated!!
